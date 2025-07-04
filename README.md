@@ -100,6 +100,3 @@ This project is designed to showcase best practices in transactional processing,
 5. Review logs and Excel outputs in the `Data\Output` folder.
 
 ---
-
-Let me know if you want to include a license section, changelog, or badges for portfolio purposes.
-```

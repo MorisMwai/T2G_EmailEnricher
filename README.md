@@ -51,7 +51,6 @@ This project is designed to showcase best practices in transactional processing,
 
 1. **INITIALIZE PROCESS**  
    - `./Framework/InitAllSettings` – Load configuration data from `Config.xlsx` and assets  
-   - `./Framework/GetAppCredential` – Retrieve credentials from Orchestrator or Windows Credential Manager  
    - `./Framework/InitAllApplications` – Open and log in to required applications (Outlook in this case)
 
 2. **GET TRANSACTION DATA**  

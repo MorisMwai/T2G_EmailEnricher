@@ -1,5 +1,5 @@
 {
-  "name": "T2G_EmailAutomation_CSharp",
+  "name": "T2G_EmailAutomation",
   "projectId": "4f783d00-62d0-4183-923b-0aecab34382f",
   "description": "Automation solution for Talents2Germany GmbH to extract, filter, and process specific interest emails using Outlook and log structured data from signatures into Excel. Built with robust error handling, logging, and Orchestrator integration using UiPath REFramework (C#).",
   "main": "Main.xaml",
@@ -19,7 +19,7 @@
     "netFrameworkLazyLoading": false,
     "isPausable": true,
     "isAttended": false,
-    "requiresUserInteraction": true,
+    "requiresUserInteraction": false,
     "supportsPersistence": false,
     "workflowSerialization": "NewtonsoftJson",
     "excludedLoggedData": [

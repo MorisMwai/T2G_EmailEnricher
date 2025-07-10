@@ -1,4 +1,4 @@
-# 🤖 T2G Email Automation Bot (UiPath REFramework – C#)
+# 🤖 T2G Email Automation Bot (UiPath REFramework)
 
 This is a test RPA project built using UiPath's Robotic Enterprise Framework (REFramework) in C#. It automates the extraction of specific emails from Outlook, parses sender details from their email signature, logs the structured data into an Excel report, and sends a summary notification email.
 
@@ -51,7 +51,6 @@ This project is designed to showcase best practices in transactional processing,
 
 1. **INITIALIZE PROCESS**  
    - `./Framework/InitAllSettings` – Load configuration data from `Config.xlsx` and assets  
-   - `./Framework/GetAppCredential` – Retrieve credentials from Orchestrator or Windows Credential Manager  
    - `./Framework/InitAllApplications` – Open and log in to required applications (Outlook in this case)
 
 2. **GET TRANSACTION DATA**  

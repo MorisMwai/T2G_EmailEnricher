@@ -204,7 +204,7 @@
               <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error">
                 <ui:LogMessage.Message>
                   <InArgument x:TypeArguments="x:Object">
-                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_23">"Failed to retrieve recent emails from Gmail."</CSharpValue>
+                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_23">"Failed to retrieve recent emails via IMAP."</CSharpValue>
                   </InArgument>
                 </ui:LogMessage.Message>
               </ui:LogMessage>

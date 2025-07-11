@@ -118,15 +118,15 @@
       <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,1090" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,1147" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="520,1067" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="470,1124" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="Fetch Outlook emails from the last 7 days" DisplayName="Get Recent Emails" sap:VirtualizedContainerService.HintSize="518,574" sap2010:WorkflowViewState.IdRef="Sequence_7">
+        <Sequence sap2010:Annotation.AnnotationText="Fetch Outlook emails from the last 7 days" DisplayName="Get Recent Emails" sap:VirtualizedContainerService.HintSize="468,574" sap2010:WorkflowViewState.IdRef="Sequence_7">
           <Sequence.Variables>
             <Variable x:TypeArguments="x:String" Name="SearchQuery" />
           </Sequence.Variables>
@@ -136,7 +136,7 @@
               <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <Assign sap:VirtualizedContainerService.HintSize="484,120" sap2010:WorkflowViewState.IdRef="Assign_4">
+          <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_4">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">
                 <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_11">SearchQuery</CSharpReference>
@@ -148,7 +148,7 @@
               </InArgument>
             </Assign.Value>
           </Assign>
-          <ui:GetIMAPMailMessages ClientName="{x:Null}" ClientVersion="{x:Null}" Email="{x:Null}" IgnoreCRL="{x:Null}" Password="{x:Null}" Port="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" ConnectionId="7ab04afe-8701-46b9-9ab7-77ec43e583c4" ConnectionMode="IntegrationService" DeleteMessages="False" DisplayName="Get IMAP Email List" EnableSSL="True" FilterExpressionCharacterSet="US-ASCII" sap:VirtualizedContainerService.HintSize="484,249" sap2010:WorkflowViewState.IdRef="GetIMAPMailMessages_1" MailFolder="Inbox" MarkAsRead="True" OnlyUnreadMessages="True" OrderByDate="NewestFirst" SecureConnection="Auto" Top="30" UseISConnection="True">
+          <ui:GetIMAPMailMessages ClientName="{x:Null}" ClientVersion="{x:Null}" Email="{x:Null}" IgnoreCRL="{x:Null}" Password="{x:Null}" Port="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" TimeoutMS="{x:Null}" UseOAuth="{x:Null}" ConnectionId="7ab04afe-8701-46b9-9ab7-77ec43e583c4" ConnectionMode="IntegrationService" DeleteMessages="False" DisplayName="Get IMAP Email List" EnableSSL="True" FilterExpressionCharacterSet="US-ASCII" sap:VirtualizedContainerService.HintSize="434,249" sap2010:WorkflowViewState.IdRef="GetIMAPMailMessages_1" MailFolder="Inbox" MarkAsRead="True" OnlyUnreadMessages="True" OrderByDate="NewestFirst" SecureConnection="Auto" Top="30" UseISConnection="True">
             <ui:GetIMAPMailMessages.ConnectionDetailsBackupSlot>
               <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="IntegrationService">
                 <usau:BackupSlot.BackupValues>
@@ -180,7 +180,7 @@
               </OutArgument>
             </ui:GetIMAPMailMessages.Messages>
           </ui:GetIMAPMailMessages>
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="484,113" sap2010:WorkflowViewState.IdRef="MessageBox_2">
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="434,113" sap2010:WorkflowViewState.IdRef="MessageBox_2">
             <ui:MessageBox.Text>
               <InArgument x:TypeArguments="x:Object">
                 <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_29">$"{out_RecentEmails.Count} Emails found!"</CSharpValue>
@@ -195,25 +195,26 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="518,234" sap2010:WorkflowViewState.IdRef="Sequence_10">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="468,291" sap2010:WorkflowViewState.IdRef="Sequence_10">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error">
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error">
                 <ui:LogMessage.Message>
                   <InArgument x:TypeArguments="x:Object">
                     <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_23">"Failed to retrieve recent emails from Gmail."</CSharpValue>
                   </InArgument>
                 </ui:LogMessage.Message>
               </ui:LogMessage>
+              <Rethrow sap:VirtualizedContainerService.HintSize="434,48" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
             </Sequence>
           </ActivityAction>
         </Catch>
       </TryCatch.Catches>
       <TryCatch.Finally>
-        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="518,94" sap2010:WorkflowViewState.IdRef="Sequence_9">
+        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="468,94" sap2010:WorkflowViewState.IdRef="Sequence_9">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>

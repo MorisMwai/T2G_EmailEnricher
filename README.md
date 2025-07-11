@@ -1,36 +1,56 @@
-# 📬 T2G Email Automation Coordinator (UiPath REFramework)
+# 📬 T2G Email Enricher (UiPath REFramework)
 
-This is the **Dispatcher** component of the Talents2Germany email automation solution. It retrieves and filters Outlook emails based on business rules, extracts relevant metadata from partnership/investor inquiries, writes to Excel, and queues the structured data in Orchestrator for downstream processing.
+This is the **Queue Builder** component of the Talents2Germany email automation project. It extracts relevant metadata from incoming Outlook emails, enriches the data with parsed details, writes the information into an Excel report, and pushes each record into an Orchestrator queue for downstream handling.
 
-Built using UiPath's REFramework in C#.
+Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
 
 ---
 
 ### 📌 What It Does
 
-- ✅ Reads Outlook emails from the last 7 days
-- ✅ Filters emails containing phrases like:
+- ✅ Reads unread Outlook emails from the last 7 days
+- ✅ Filters emails containing:
   - “I am interested in your program” *(must have CV attached)*
   - “partnership offer”
   - “join our company as an investor”
-- ✅ Extracts metadata from email signatures (for partner/investor inquiries only):
+- ✅ Extracts structured metadata from the email signature:
   - Sender name
   - Company
   - Address
   - VAT ID
-  - Email
-- ✅ Appends extracted info to an Excel report
-- ✅ Adds each valid record as a queue item in Orchestrator
+  - Sender email
+- ✅ Appends data to an Excel report
+- ✅ Adds each structured record to an Orchestrator queue (`FilteredEmailsQueue`)
 
 ---
 
-### 🛠️ Stack
+### 🛠 Tech Stack
 
-- UiPath Studio (C# – REFramework)
+- UiPath Studio (REFramework – C#)
 - Outlook Integration
 - Regex for parsing signatures
-- Excel file updates
+- Excel Activities
 - Orchestrator Queues & Assets
+
+---
+
+### 🔄 REFramework Logic
+
+#### 1. **Init**
+- Load Config.xlsx and Orchestrator assets
+
+#### 2. **Get Transaction Data**
+- Retrieve unread Gmail emails (last 7 days)
+- Filter relevant emails based on keywords
+- Return the filtered list for processing
+
+#### 3. **Process Transaction**
+- Extract metadata from email signature
+- Append to Excel report (`PartnershipEmails_Report.xlsx`)
+- Add metadata to Orchestrator Queue (`FilteredEmailsQueue`)
+
+#### 4. **End Process**
+- Close applications and dispose all open resources
 
 ---
 
@@ -39,51 +59,27 @@ Built using UiPath's REFramework in C#.
 #### Queue
 | Name               | Purpose                                |
 |--------------------|----------------------------------------|
-| `FilteredEmailsQueue` | Stores filtered & parsed email metadata |
+| `FilteredEmailsQueue` | Holds one queue item per parsed email |
 
 #### Assets
-| Name              | Type | Purpose                                  |
-|-------------------|------|------------------------------------------|
-| `ExcelReportPath` | Text | Full path to Excel file in `Data\Output` |
-| `NotificationEmail` | Text | Email address to send summary notification (used by Handler) |
+| Name              | Type | Description                                  |
+|-------------------|------|----------------------------------------------|
+| `ExcelReportPath` | Text | Full path to Excel file in `Data\Output`     |
+| `NotificationEmail` | Text | Summary recipient (used by Handler)         |
 
 ---
 
-### 📁 Output File
+### 🧾 Output File
 
 - **Location**: `Data\Output\PartnershipEmails_Report.xlsx`
 - **Columns**: `SenderName`, `Company`, `Address`, `VatId`, `SenderEmail`
 
 ---
 
-### 🔄 REFramework Flow Summary
+### 📁 Running the Bot
 
-1. **Init**  
-   Load configuration and open Outlook
-
-2. **GetTransactionData**  
-   - Get recent emails  
-   - Filter them  
-
-3. **Process**  
-   - Parse metadata  
-   - Append to Excel  
-   - Add queue items for valid records
-
-4. **End Process**  
-   Closes applications and finalizes logs
-
----
-
-### 📦 Documentation
-
-Included in the `Documentation/` folder.
-
----
-
-### 🏁 Running the Bot
-
-1. Open project in UiPath Studio (C#)
-2. Ensure assets are configured in Orchestrator
-3. Update `Config.xlsx` with correct paths & values
-4. Run in attended or unattended mode
+1. Open this project in UiPath Studio (C#)
+2. Ensure Outlook is configured
+3. Update `Config.xlsx` with the correct paths and values
+4. Ensure assets and queue are created in Orchestrator
+5. Run in attended or unattended mode

@@ -185,7 +185,7 @@
               <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error">
                 <ui:LogMessage.Message>
                   <InArgument x:TypeArguments="x:Object">
-                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_29">"Error updaing the Excel file"</CSharpValue>
+                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_29">"Error updating the Excel file"</CSharpValue>
                   </InArgument>
                 </ui:LogMessage.Message>
               </ui:LogMessage>

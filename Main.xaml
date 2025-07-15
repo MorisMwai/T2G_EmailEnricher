@@ -2,14 +2,14 @@
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Allows the Orchestrator queue name to be passed as an argument, instead of only being defined in the configuration file." Name="in_OrchestratorQueueName" Type="InArgument(x:String)" />
     <x:Property sap2010:Annotation.AnnotationText="Allows the Orchestrator folder name where the queue is created to be passed as an argument, instead of only being defined in the configuration file." Name="in_OrchestratorQueueFolder" Type="InArgument(x:String)" />
+    <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap:VirtualizedContainerService.HintSize>681.3333333333334,916</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
-      <x:String>GlobalConstantsNamespace</x:String>
-      <x:String>GlobalVariablesNamespace</x:String>
       <x:String>System</x:String>
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.DynamicUpdate</x:String>
@@ -34,6 +34,8 @@
       <x:String>UiPath.Mail.Activities</x:String>
       <x:String>System.Net.Mail</x:String>
       <x:String>System.Numerics</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -98,7 +100,7 @@
       <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <StateMachine InitialState="{x:Reference __ReferenceID0}" sap2010:Annotation.AnnotationText="T2G_EmailEnricher&#xA;Coordinates email intake and processing for Talents2Germany. Retrieves emails, extracts structured data from senders, writes to Excel, and queues the data for further handling via Orchestrator.&#xA;Moris Mwai" DisplayName="General Business Process" sap:VirtualizedContainerService.HintSize="1315,616.05" sap2010:WorkflowViewState.IdRef="StateMachine_1">
+  <StateMachine InitialState="{x:Reference __ReferenceID0}" sap2010:Annotation.AnnotationText="T2G_EmailEnricher&#xA;Coordinates email intake and processing for Talents2Germany. Retrieves emails, extracts structured data from senders, writes to Excel, and queues the data for further handling via Orchestrator.&#xA;Moris Mwai" DisplayName="General Business Process" sap:VirtualizedContainerService.HintSize="1315,566.05" sap2010:WorkflowViewState.IdRef="StateMachine_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -414,7 +416,6 @@
                             </ui:LogMessage>
                             <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="GetRecentEmails - Invoke Workflow File (Dispatcher\\Email\\GetRecentEmails.xaml)" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\GetRecentEmails.xaml">
                               <ui:InvokeWorkflowFile.Arguments>
-                                <InArgument x:TypeArguments="x:String" x:Key="in_Account" />
                                 <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="out_TransactionItem" />
                                 <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TransactionData" />
                                 <OutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="out_RecentEmails">
@@ -444,17 +445,17 @@
                                   </ui:LogMessage>
                                   <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="FilterEmails - Invoke Workflow File (Dispatcher\\Email\\FilterEmails.xaml)" sap:VirtualizedContainerService.HintSize="382,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_15" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\FilterEmails.xaml">
                                     <ui:InvokeWorkflowFile.Arguments>
-                                      <OutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="out_FilteredEmails_Attachments">
-                                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_40">FilteredEmails_Attachments</CSharpReference>
-                                      </OutArgument>
+                                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails_Attachments">
+                                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_44">FilteredEmails_Attachments</CSharpReference>
+                                      </InOutArgument>
                                       <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="out_TransactionItem" />
                                       <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TransactionData" />
                                       <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_EmailList">
                                         <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_92">RecentEmails</CSharpValue>
                                       </InArgument>
-                                      <OutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="out_FilteredEmails">
-                                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_41">FilteredEmails</CSharpReference>
-                                      </OutArgument>
+                                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
+                                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_45">FilteredEmails</CSharpReference>
+                                      </InOutArgument>
                                     </ui:InvokeWorkflowFile.Arguments>
                                   </ui:InvokeWorkflowFile>
                                 </Sequence>
@@ -571,7 +572,9 @@
                               </Assign>
                               <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Process workflow" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Framework\Process.xaml">
                                 <ui:InvokeWorkflowFile.Arguments>
-                                  <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_FilteredEmails" />
+                                  <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
+                                    <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_46">FilteredEmails</CSharpReference>
+                                  </InOutArgument>
                                   <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
                                     <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_23">TransactionItem</CSharpValue>
                                   </InArgument>

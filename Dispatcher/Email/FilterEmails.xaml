@@ -1,10 +1,10 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="FilterEmails" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.Collections;assembly=System.Private.CoreLib" xmlns:sc1="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.TypeConverter" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:uasc="clr-namespace:UiPath.Activities.System.Collections;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="out_FilteredEmails_Attachments" Type="OutArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="out_TransactionItem" Type="InOutArgument(ui:QueueItem)" />
     <x:Property Name="io_dt_TransactionData" Type="InOutArgument(sd:DataTable)" />
     <x:Property Name="in_EmailList" Type="InArgument(scg:List(snm:MailMessage))" />
-    <x:Property Name="out_FilteredEmails" Type="OutArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
@@ -31,11 +31,11 @@
       <x:String>System.Xml</x:String>
       <x:String>System.Xml.Linq</x:String>
       <x:String>System.IO</x:String>
-      <x:String>GlobalVariablesNamespace</x:String>
-      <x:String>GlobalConstantsNamespace</x:String>
       <x:String>System.Linq.Expressions</x:String>
       <x:String>System.Numerics</x:String>
       <x:String>System.ComponentModel</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -111,9 +111,15 @@
   </TextExpression.ReferencesForImplementation>
   <Sequence sap:VirtualizedContainerService.HintSize="1309,2662" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="MailText" />
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList">
+        <Variable.Default>
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_51">new List&lt;MailMessage&gt;()</CSharpValue>
+        </Variable.Default>
+      </Variable>
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList_Attachments">
         <Variable.Default>
-          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_43">new List&lt;MailMessage&gt;()</CSharpValue>
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_54">new List&lt;MailMessage&gt;()</CSharpValue>
         </Variable.Default>
       </Variable>
     </Sequence.Variables>
@@ -125,14 +131,6 @@
     <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="526,2639" sap2010:WorkflowViewState.IdRef="TryCatch_2">
       <TryCatch.Try>
         <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="524,2089" sap2010:WorkflowViewState.IdRef="Sequence_10">
-          <Sequence.Variables>
-            <Variable x:TypeArguments="x:String" Name="MailText" />
-            <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList">
-              <Variable.Default>
-                <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_21">new List&lt;MailMessage&gt;()</CSharpValue>
-              </Variable.Default>
-            </Variable>
-          </Sequence.Variables>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -154,19 +152,19 @@
                   <Assign sap:VirtualizedContainerService.HintSize="454,120" sap2010:WorkflowViewState.IdRef="Assign_4">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:String">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_11">MailText</CSharpReference>
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_17">MailText</CSharpReference>
                       </OutArgument>
                     </Assign.To>
                     <Assign.Value>
                       <InArgument x:TypeArguments="x:String">
-                        <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_18" xml:space="preserve">(CurrentMail.Subject + " "  + CurrentMail.Body).ToLower()</CSharpValue>
+                        <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_50" xml:space="preserve">(CurrentMail.Subject + " "  + CurrentMail.Body).ToLower()</CSharpValue>
                       </InArgument>
                     </Assign.Value>
                   </Assign>
                   <ui:IfElseIfV2 DisplayName="Else If" sap:VirtualizedContainerService.HintSize="454,1268" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
                     <ui:IfElseIfV2.Condition>
                       <InArgument x:TypeArguments="x:Boolean">
-                        <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_41">MailText.Contains("i am interested in your program")</CSharpValue>
+                        <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_48">MailText.Contains("i am interested in your program")</CSharpValue>
                       </InArgument>
                     </ui:IfElseIfV2.Condition>
                     <ui:IfElseIfV2.Else>
@@ -183,7 +181,7 @@
                         <ui:IfElseIfBlock BlockType="ElseIf" DisplayName="If else if block" sap2010:WorkflowViewState.IdRef="IfElseIfBlock_2">
                           <ui:IfElseIfBlock.Condition>
                             <InArgument x:TypeArguments="x:Boolean">
-                              <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_42">MailText.Contains("partnership offer") || MailText.Contains("join our company as an investor")</CSharpValue>
+                              <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_56">MailText.Contains("partnership offer") || MailText.Contains("join our company as an investor")</CSharpValue>
                             </InArgument>
                           </ui:IfElseIfBlock.Condition>
                           <ui:IfElseIfBlock.Then>
@@ -196,7 +194,7 @@
                               <uasc:AppendItemToCollection x:TypeArguments="snm:MailMessage" DisplayName="Append Items to Collection" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="AppendItemToCollection`1_2">
                                 <uasc:AppendItemToCollection.Collection>
                                   <InArgument x:TypeArguments="scg:ICollection(snm:MailMessage)">
-                                    <CSharpValue x:TypeArguments="scg:ICollection(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_27">FilteredList</CSharpValue>
+                                    <CSharpValue x:TypeArguments="scg:ICollection(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_57">FilteredList</CSharpValue>
                                   </InArgument>
                                 </uasc:AppendItemToCollection.Collection>
                                 <uasc:AppendItemToCollection.Items>
@@ -239,7 +237,7 @@
                               <uasc:AppendItemToCollection x:TypeArguments="snm:MailMessage" DisplayName="Append Items to Collection" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="AppendItemToCollection`1_1">
                                 <uasc:AppendItemToCollection.Collection>
                                   <InArgument x:TypeArguments="scg:ICollection(snm:MailMessage)">
-                                    <CSharpValue x:TypeArguments="scg:ICollection(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_44">FilteredList_Attachments</CSharpValue>
+                                    <CSharpValue x:TypeArguments="scg:ICollection(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_55">FilteredList_Attachments</CSharpValue>
                                   </InArgument>
                                 </uasc:AppendItemToCollection.Collection>
                                 <uasc:AppendItemToCollection.Items>
@@ -312,12 +310,12 @@
           <Assign sap:VirtualizedContainerService.HintSize="490,120" sap2010:WorkflowViewState.IdRef="Assign_5">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
-                <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_13">out_FilteredEmails_Attachments</CSharpReference>
+                <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_13">io_FilteredEmails_Attachments</CSharpReference>
               </OutArgument>
             </Assign.To>
             <Assign.Value>
               <InArgument x:TypeArguments="scg:List(snm:MailMessage)">
-                <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_45">FilteredList_Attachments</CSharpValue>
+                <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_58">FilteredList_Attachments</CSharpValue>
               </InArgument>
             </Assign.Value>
             <sap:WorkflowViewStateService.ViewState>
@@ -330,12 +328,12 @@
           <Assign sap:VirtualizedContainerService.HintSize="490,120" sap2010:WorkflowViewState.IdRef="Assign_6">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
-                <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_14">out_FilteredEmails</CSharpReference>
+                <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_14">io_FilteredEmails</CSharpReference>
               </OutArgument>
             </Assign.To>
             <Assign.Value>
               <InArgument x:TypeArguments="scg:List(snm:MailMessage)">
-                <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_46">FilteredList</CSharpValue>
+                <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_59">FilteredList</CSharpValue>
               </InArgument>
             </Assign.Value>
             <sap:WorkflowViewStateService.ViewState>
@@ -348,7 +346,7 @@
           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="490,174" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info">
             <ui:LogMessage.Message>
               <InArgument x:TypeArguments="x:Object">
-                <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_32">$"Filtered {out_FilteredEmails.Count} emails from the original {in_EmailList.Count}."</CSharpValue>
+                <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_32">$"Filtered {io_FilteredEmails.Count} emails from the original {in_EmailList.Count}."</CSharpValue>
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>

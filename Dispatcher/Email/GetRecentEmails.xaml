@@ -118,6 +118,9 @@
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap:VirtualizedContainerService.HintSize="1309,1815" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="SearchQuery" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -126,9 +129,6 @@
     <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="470,1792" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
         <Sequence sap2010:Annotation.AnnotationText="Fetch Outlook emails from the last 7 days" DisplayName="Get Recent Emails" sap:VirtualizedContainerService.HintSize="468,1242" sap2010:WorkflowViewState.IdRef="Sequence_7">
-          <Sequence.Variables>
-            <Variable x:TypeArguments="x:String" Name="SearchQuery" />
-          </Sequence.Variables>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -138,7 +138,7 @@
           <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_4">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">
-                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_11">SearchQuery</CSharpReference>
+                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_12">SearchQuery</CSharpReference>
               </OutArgument>
             </Assign.To>
             <Assign.Value>

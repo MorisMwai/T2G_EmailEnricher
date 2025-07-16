@@ -1,6 +1,8 @@
 # 📬 T2G Email Enricher (UiPath REFramework)
 
-This is the **Queue Builder** component of the Talents2Germany email automation project. It extracts relevant metadata from incoming Outlook emails, enriches the data with parsed details, writes the information into an Excel report, and pushes each record into an Orchestrator queue for downstream handling.
+This is the **Queue Builder (Dispatcher)** component of the Talents2Germany email automation project.  
+It retrieves relevant Gmail emails, extracts structured metadata from senders, writes the information to an Excel report, and queues the data in Orchestrator for further handling by the **Handler (Performer)**.  
+Additionally, it moves successfully processed emails into designated folders for better mailbox organization.
 
 Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
 
@@ -8,7 +10,7 @@ Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
 
 ### 📌 What It Does
 
-- ✅ Reads unread Outlook emails from the last 7 days
+- ✅ Reads unread Gmail emails from the last 7 days
 - ✅ Filters emails containing:
   - “I am interested in your program” *(must have CV attached)*
   - “partnership offer”
@@ -19,67 +21,98 @@ Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
   - Address
   - VAT ID
   - Sender email
-- ✅ Appends data to an Excel report
-- ✅ Adds each structured record to an Orchestrator queue (`FilteredEmailsQueue`)
+- ✅ Appends extracted data to an Excel report
+- ✅ Saves email attachments (e.g., CVs) to:
+  `Data\Output\Attachments
+- ✅ Adds the following to **one Orchestrator queue (`FilteredEmailsQueue`)**:
+  - **One item per processed email** containing all metadata
+  - **Summary data** in a separate queue item:
+    - `ProcessedEmails`: total count of partnership/investor emails
+    - `ProcessedEmailsWithAttachments`: total count of CV emails
+- ✅ Moves processed emails into configured folders:
+  - **ProcessedEmails**
+  - **ProcessedEmailsWithAttachments**
 
 ---
 
 ### 🛠 Tech Stack
 
-- UiPath Studio (REFramework – C#)
-- Outlook Integration
-- Regex for parsing signatures
+- **UiPath Studio** (REFramework – C#)
+- Gmail Integration
+- Regex for parsing email signatures
 - Excel Activities
 - Orchestrator Queues & Assets
-
+  
 ---
 
 ### 🔄 REFramework Logic
 
 #### 1. **Init**
-- Load Config.xlsx and Orchestrator assets
+- Load `Config.xlsx` and Orchestrator assets
 
 #### 2. **Get Transaction Data**
-- Retrieve unread Gmail emails (last 7 days)
-- Filter relevant emails based on keywords
-- Return the filtered list for processing
+- Retrieve unread Gmail emails from the last 7 days
+- Filter based on keywords for:
+  - Partnership/Investor emails
+  - Program interest emails (with CV)
+- Return filtered email lists for processing
 
 #### 3. **Process Transaction**
-- Extract metadata from email signature
-- Append to Excel report (`PartnershipEmails_Report.xlsx`)
-- Add metadata to Orchestrator Queue (`FilteredEmailsQueue`)
+- For each filtered email:
+  - Extract metadata (name, company, VAT, etc.)
+  - Save attachments (if any) to `Data\Output\Attachments`
+  - Append to Excel report (`PartnershipEmails_Report.xlsx`)
+- After loop:
+  - Add all processed records to `FilteredEmailsQueue`
+  - Add a summary queue item containing:
+    - `ProcessedEmails`
+    - `ProcessedEmailsWithAttachments`
+  - Move processed emails to designated folders
 
 #### 4. **End Process**
-- Close applications and dispose all open resources
+- Close all resources and log summary
 
 ---
 
 ### 📂 Orchestrator Setup
 
 #### Queue
-| Name               | Purpose                                |
-|--------------------|----------------------------------------|
-| `FilteredEmailsQueue` | Holds one queue item per parsed email |
+| Name                 | Purpose                                         |
+|----------------------|-------------------------------------------------|
+| `FilteredEmailsQueue` | Stores processed email records and summary data |
 
 #### Assets
-| Name              | Type | Description                                  |
-|-------------------|------|----------------------------------------------|
-| `ExcelReportPath` | Text | Full path to Excel file in `Data\Output`     |
-| `NotificationEmail` | Text | Summary recipient (used by Handler)         |
+| Name                      | Type | Description                                   |
+|---------------------------|------|-----------------------------------------------|
+| `ExcelReportPath`         | Text | Path to Excel file in `Data\Output`          |
+| `NotificationEmail`       | Text | Email for sending summary (used by Handler)  |
+| `ProcessedEmailsFolder`   | Text | Gmail folder for processed partnership emails |
+| `ProcessedAttachmentsFolder` | Text | Gmail folder for emails with CV attachments  |
 
 ---
 
 ### 🧾 Output File
 
-- **Location**: `Data\Output\PartnershipEmails_Report.xlsx`
-- **Columns**: `SenderName`, `Company`, `Address`, `VatId`, `SenderEmail`
+- **Path**: `Data\Output\PartnershipEmails_Report.xlsx`
+- **Sheet Name**: `Partnership_Emails`
+- **Columns**: `DateProcessed`, `SenderName`, `Company`, `Address`, `VatId`, `SenderEmail`, `EmailSubject`
+
+- **Attachments**:  
+  Path: `Data\Output\Attachments`
 
 ---
 
 ### 📁 Running the Bot
 
 1. Open this project in UiPath Studio (C#)
-2. Ensure Outlook is configured
-3. Update `Config.xlsx` with the correct paths and values
-4. Ensure assets and queue are created in Orchestrator
-5. Run in attended or unattended mode
+2. Ensure Gmail integration is configured
+3. Update `Config.xlsx` and Orchestrator assets with correct paths and credentials
+4. Set up queues in Orchestrator as outlined above
+5. Run the bot in attended or unattended mode
+   
+---
+
+✅ Next: The **Performer** (Handler) will:
+- Read `FilteredEmailsQueue`
+- Send summary email using summary queue item
+- Update Orchestrator transaction statuses

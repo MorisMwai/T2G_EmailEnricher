@@ -270,7 +270,7 @@
                                   </OutArgument>
                                 </Assign.To>
                                 <Assign.Value>
-                                  <InArgument x:TypeArguments="x:String">C:\Users\MorisMwaiWachira\OneDrive - THH LLC\Documents\UiPath\T2G_EmailEnricher\Data\Output\Attachments</InArgument>
+                                  <InArgument x:TypeArguments="x:String">Data\Output\Attachments</InArgument>
                                 </Assign.Value>
                               </Assign>
                               <ui:SaveMailAttachments ResourceAttachments="{x:Null}" DisplayName="Save Email Attachments" ExcludeInlineAttachments="False" sap:VirtualizedContainerService.HintSize="434,230" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" OverwriteExisting="False">

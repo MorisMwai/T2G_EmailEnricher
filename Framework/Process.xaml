@@ -165,7 +165,7 @@
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="x:String">
-          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_72">DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")</CSharpValue>
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_104">DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</CSharpValue>
         </InArgument>
       </Assign.Value>
     </Assign>

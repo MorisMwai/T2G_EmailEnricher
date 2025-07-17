@@ -114,7 +114,7 @@
       <AssemblyReference>UiPath.Platform</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,3344" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,3527" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="MailText" />
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList">
@@ -133,16 +133,23 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="578,3321" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="578,3504" sap2010:WorkflowViewState.IdRef="TryCatch_2">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="576,2771" sap2010:WorkflowViewState.IdRef="Sequence_10">
+        <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="576,2954" sap2010:WorkflowViewState.IdRef="Sequence_10">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each CurrentMail" sap:VirtualizedContainerService.HintSize="542,2082" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
+          <ui:LogMessage DisplayName="Log Message Filter Emails" sap:VirtualizedContainerService.HintSize="542,183" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info">
+            <ui:LogMessage.Message>
+              <InArgument x:TypeArguments="x:Object">
+                <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_67">"Filter the emails found"</CSharpValue>
+              </InArgument>
+            </ui:LogMessage.Message>
+          </ui:LogMessage>
+          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Found Email" sap:VirtualizedContainerService.HintSize="542,2082" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
             <ui:ForEach.Body>
               <ActivityAction x:TypeArguments="snm:MailMessage">
                 <ActivityAction.Argument>
@@ -154,7 +161,7 @@
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <Assign sap:VirtualizedContainerService.HintSize="506,120" sap2010:WorkflowViewState.IdRef="Assign_4">
+                  <Assign DisplayName="Assign - The email contents" sap:VirtualizedContainerService.HintSize="506,120" sap2010:WorkflowViewState.IdRef="Assign_4">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:String">
                         <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_17">MailText</CSharpReference>
@@ -166,7 +173,7 @@
                       </InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:IfElseIfV2 DisplayName="Else If" sap:VirtualizedContainerService.HintSize="506,1767" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
+                  <ui:IfElseIfV2 DisplayName="Check if the email contains &quot;i am interested in your program&quot;(Must have a CV)" sap:VirtualizedContainerService.HintSize="506,1767" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
                     <ui:IfElseIfV2.Condition>
                       <InArgument x:TypeArguments="x:Boolean">
                         <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_48">MailText.Contains("i am interested in your program")</CSharpValue>
@@ -229,7 +236,7 @@
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <If sap:VirtualizedContainerService.HintSize="470,1018" sap2010:WorkflowViewState.IdRef="If_3">
+                        <If DisplayName="Check if there are any attachments" sap:VirtualizedContainerService.HintSize="470,1018" sap2010:WorkflowViewState.IdRef="If_3">
                           <If.Condition>
                             <InArgument x:TypeArguments="x:Boolean">
                               <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_20" xml:space="preserve">CurrentMail.Attachments.Any(att =&gt;
@@ -263,7 +270,7 @@
                                   </scg:List>
                                 </uasc:AppendItemToCollection.Items>
                               </uasc:AppendItemToCollection>
-                              <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_7">
+                              <Assign DisplayName="Assign - Output folder to hold attachments" sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_7">
                                 <Assign.To>
                                   <OutArgument x:TypeArguments="x:String">
                                     <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_19">AttachmentsFolder</CSharpReference>
@@ -293,7 +300,7 @@
                             </Sequence>
                           </If.Then>
                           <If.Else>
-                            <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="468,291" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                            <Sequence DisplayName="Else - To throw a Business Exception" sap:VirtualizedContainerService.HintSize="468,291" sap2010:WorkflowViewState.IdRef="Sequence_17">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -349,7 +356,7 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
           </ui:ForEach>
-          <Assign sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_5">
+          <Assign DisplayName="Assign - Filtered Emails with Attachments" sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_5">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
                 <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_13">io_FilteredEmails_Attachments</CSharpReference>
@@ -367,7 +374,7 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
           </Assign>
-          <Assign sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_6">
+          <Assign DisplayName="Assign - Filtered Emails" sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_6">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
                 <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_14">io_FilteredEmails</CSharpReference>

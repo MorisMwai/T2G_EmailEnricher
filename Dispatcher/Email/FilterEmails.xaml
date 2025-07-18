@@ -251,8 +251,16 @@
       <Variable x:TypeArguments="x:String" Name="body" />
       <Variable x:TypeArguments="x:String" Name="subject" />
       <Variable x:TypeArguments="x:String" Name="MailText" />
-      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList" />
-      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList_Attachments" />
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList">
+        <Variable.Default>
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_112">new List&lt;MailMessage&gt;()</CSharpValue>
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredList_Attachments">
+        <Variable.Default>
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_113">new List&lt;MailMessage&gt;()</CSharpValue>
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">

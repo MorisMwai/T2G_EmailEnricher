@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="AddToQueue" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="AddToQueue" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:um="clr-namespace:UiPath.Mail;assembly=UiPath.Mail.Activities" xmlns:umab="clr-namespace:UiPath.Mail.Activities.Business;assembly=UiPath.Mail.Activities" xmlns:umabh="clr-namespace:UiPath.Mail.Activities.Business.HtmlEditor;assembly=UiPath.Mail.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_FilteredEmailsWithAttachmentsCount" Type="InArgument(x:String)" />
     <x:Property Name="in_FilteredEmailsCount" Type="InArgument(x:String)" />
@@ -42,6 +42,13 @@
       <x:String>GlobalConstantsNamespace</x:String>
       <x:String>System.Linq.Expressions</x:String>
       <x:String>System.Numerics</x:String>
+      <x:String>UiPath.Mail</x:String>
+      <x:String>UiPath.Mail.Activities.Utils</x:String>
+      <x:String>UiPath.Mail.Activities.Business.HtmlEditor</x:String>
+      <x:String>UiPath.Mail.Activities.Business</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Shared.Activities.ConnectionService.Contracts</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -114,24 +121,26 @@
       <AssemblyReference>System.Data.SqlClient</AssemblyReference>
       <AssemblyReference>UiPath.GSuite</AssemblyReference>
       <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,1773" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,2974" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="454,1750" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="572,2951" sap2010:WorkflowViewState.IdRef="TryCatch_4">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="Add the email metadata as a queue item to FilteredEmailsQueue" DisplayName="Try" sap:VirtualizedContainerService.HintSize="452,1200" sap2010:WorkflowViewState.IdRef="Sequence_20">
+        <Sequence sap2010:Annotation.AnnotationText="Add the email metadata as a queue item to FilteredEmailsQueue" DisplayName="Try" sap:VirtualizedContainerService.HintSize="570,1180" sap2010:WorkflowViewState.IdRef="Sequence_20">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="418,669" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
+          <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="536,669" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
             <ui:ForEachRow.Body>
               <ActivityAction x:TypeArguments="sd:DataRow">
                 <ActivityAction.Argument>
@@ -184,7 +193,7 @@
               </InArgument>
             </ui:ForEachRow.DataTable>
           </ui:ForEachRow>
-          <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item" FolderPath="T2G_EmailAutomation" sap:VirtualizedContainerService.HintSize="418,245" sap2010:WorkflowViewState.IdRef="AddQueueItem_2" Priority="Normal" QueueType="FilteredEmailsQueue">
+          <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item" FolderPath="T2G_EmailAutomation" sap:VirtualizedContainerService.HintSize="536,245" sap2010:WorkflowViewState.IdRef="AddQueueItem_2" Priority="Normal" QueueType="FilteredEmailsQueue">
             <ui:AddQueueItem.ItemInformation>
               <InArgument x:TypeArguments="x:String" x:Key="ProcessedEmails">
                 <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_79">in_FilteredEmailsCount</CSharpValue>
@@ -194,7 +203,7 @@
               </InArgument>
             </ui:AddQueueItem.ItemInformation>
           </ui:AddQueueItem>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info">
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="536,174" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info">
             <ui:LogMessage.Message>
               <InArgument x:TypeArguments="x:Object">
                 <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_83">"Added summary records to queue"</CSharpValue>
@@ -209,20 +218,124 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="452,291" sap2010:WorkflowViewState.IdRef="Sequence_23">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="570,1512" sap2010:WorkflowViewState.IdRef="Sequence_23">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="418,183" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error">
-                <ui:LogMessage.Message>
-                  <InArgument x:TypeArguments="x:Object">
-                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_70">"Failed to Add Queue Items"</CSharpValue>
-                  </InArgument>
-                </ui:LogMessage.Message>
-              </ui:LogMessage>
-              <Rethrow sap:VirtualizedContainerService.HintSize="418,48" sap2010:WorkflowViewState.IdRef="Rethrow_2" />
+              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="536,1404" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="str_FolderPath" />
+                  <Variable x:TypeArguments="x:String" Name="str_FilePath" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="502,183" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error">
+                  <ui:LogMessage.Message>
+                    <InArgument x:TypeArguments="x:Object">
+                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_70">"Failed to Add Queue Items"</CSharpValue>
+                    </InArgument>
+                  </ui:LogMessage.Message>
+                </ui:LogMessage>
+                <Assign sap:VirtualizedContainerService.HintSize="502,120" sap2010:WorkflowViewState.IdRef="Assign_1">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_1">str_FolderPath</CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">Exceptions_Screenshots</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="TakeScreenshot - Invoke Workflow File (Framework\\TakeScreenshot.xaml)" sap:VirtualizedContainerService.HintSize="502,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\\TakeScreenshot.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_Folder">
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_85">str_FolderPath</CSharpValue>
+                    </InArgument>
+                    <InOutArgument x:TypeArguments="x:String" x:Key="io_FilePath">
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_2">str_FilePath</CSharpReference>
+                    </InOutArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail" EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="502,731" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_1" Timeout="90" UseConnectionService="False">
+                  <umab:GmailApplicationCard.Body>
+                    <ActivityAction x:TypeArguments="um:IMailQuickHandle">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="um:IMailQuickHandle" Name="Gmail" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="468,511" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <umab:SendMailX Bcc="{x:Null}" Cc="{x:Null}" HtmlBodyFromText="{x:Null}" ReplyTo="{x:Null}" BodyType="Text" DisplayName="Send Email" sap:VirtualizedContainerService.HintSize="434,451" sap2010:WorkflowViewState.IdRef="SendMailX_1" Importance="Normal" IsDraft="False" MaxBodyDocumentSizeMB="2" Sensitivity="Normal" UseDocumentAsBody="False">
+                          <umab:SendMailX.Account>
+                            <InArgument x:TypeArguments="um:IMailQuickHandle">
+                              <CSharpValue x:TypeArguments="um:IMailQuickHandle" sap2010:WorkflowViewState.IdRef="CSharpValue`1_86">Gmail</CSharpValue>
+                            </InArgument>
+                          </umab:SendMailX.Account>
+                          <umab:SendMailX.Body>
+                            <InArgument x:TypeArguments="x:String">
+                              <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_90">in_Config["SystemExEmailBody"].ToString().Replace("@Source", exception.Source).Replace("@Message", exception.Message)</CSharpValue>
+                            </InArgument>
+                          </umab:SendMailX.Body>
+                          <umab:SendMailX.Files>
+                            <scg:List x:TypeArguments="InArgument(x:String)" Capacity="1">
+                              <InArgument x:TypeArguments="x:String">
+                                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_89">str_FilePath</CSharpValue>
+                              </InArgument>
+                            </scg:List>
+                          </umab:SendMailX.Files>
+                          <umab:SendMailX.HtmlBodyFromFile>
+                            <umabh:HtmlContentArgument FilePath="{x:Null}" HtmlBody="{x:Null}">
+                              <umabh:HtmlContentArgument.RuntimeImages>
+                                <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+                              </umabh:HtmlContentArgument.RuntimeImages>
+                              <umabh:HtmlContentArgument.ValueMappings>
+                                <scg:List x:TypeArguments="umabh:HtmlValueMappingBase" Capacity="0" />
+                              </umabh:HtmlContentArgument.ValueMappings>
+                            </umabh:HtmlContentArgument>
+                          </umab:SendMailX.HtmlBodyFromFile>
+                          <umab:SendMailX.Subject>
+                            <InArgument x:TypeArguments="x:String">
+                              <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_88">in_Config["SystemExEmailSubject"].ToString()</CSharpValue>
+                            </InArgument>
+                          </umab:SendMailX.Subject>
+                          <umab:SendMailX.To>
+                            <InArgument x:TypeArguments="x:String">
+                              <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_87">in_Config["SummaryNotificationEmail"].ToString()</CSharpValue>
+                            </InArgument>
+                          </umab:SendMailX.To>
+                        </umab:SendMailX>
+                      </Sequence>
+                    </ActivityAction>
+                  </umab:GmailApplicationCard.Body>
+                  <umab:GmailApplicationCard.ClientId>
+                    <InArgument x:TypeArguments="x:String">
+                      <Literal x:TypeArguments="x:String" Value="" />
+                    </InArgument>
+                  </umab:GmailApplicationCard.ClientId>
+                  <umab:GmailApplicationCard.ClientSecret>
+                    <InArgument x:TypeArguments="x:String">
+                      <Literal x:TypeArguments="x:String" Value="" />
+                    </InArgument>
+                  </umab:GmailApplicationCard.ClientSecret>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </umab:GmailApplicationCard>
+              </Sequence>
+              <Rethrow sap:VirtualizedContainerService.HintSize="536,48" sap2010:WorkflowViewState.IdRef="Rethrow_2" />
             </Sequence>
           </ActivityAction>
         </Catch>

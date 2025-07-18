@@ -1,5 +1,6 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.Collections;assembly=System.Private.CoreLib" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
+    <x:Property Name="in_ExceptionReason" Type="InArgument(x:String)" />
     <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
@@ -226,6 +227,9 @@
                   </sap:WorkflowViewStateService.ViewState>
                   <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Extract  Metadata From Signature" sap:VirtualizedContainerService.HintSize="382,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Dispatcher\\SignatureParsing\\ExtractMetadataFromSignature.xaml">
                     <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                        <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_107">in_Config</CSharpValue>
+                      </InArgument>
                       <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
                         <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_61">io_FilteredEmails</CSharpReference>
                       </InOutArgument>
@@ -290,6 +294,9 @@
                       <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_NewRecords">
                         <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_54">dt_NewRecords</CSharpReference>
                       </InOutArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionReason">
+                        <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_105">in_ExceptionReason</CSharpValue>
+                      </InArgument>
                     </ui:InvokeWorkflowFile.Arguments>
                   </ui:InvokeWorkflowFile>
                 </Sequence>
@@ -347,6 +354,9 @@
     </If>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Move Processed Emails" sap:VirtualizedContainerService.HintSize="454,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\MoveProcessedEmails.xaml">
       <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+          <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_106">in_Config</CSharpValue>
+        </InArgument>
         <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
           <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_86">io_FilteredEmails</CSharpValue>
         </InArgument>

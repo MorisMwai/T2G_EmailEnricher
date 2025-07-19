@@ -45,7 +45,10 @@ Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
   
 ---
 
-### 🔄 REFramework Logic
+### 🔄 REFramework Logic (Hybrid Model)
+Unlike a standard queue-driven model, this Dispatcher uses a hybrid approach:
+- Single transaction for all filtered emails
+- Loops internally to process each email
 
 #### 1. **Init**
 - Load `Config.xlsx` and Orchestrator assets
@@ -55,10 +58,10 @@ Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
 - Filter based on keywords for:
   - Partnership/Investor emails
   - Program interest emails (with CV)
-- Return filtered email lists for processing
+- Return the filtered email list as the TransactionItem (List of `MailMessage`)
 
 #### 3. **Process Transaction**
-- For each filtered email:
+- Loop through all filtered emails:
   - Extract metadata (name, company, VAT, etc.)
   - Save attachments (if any) to `Data\Output\Attachments`
   - Append to Excel report (`PartnershipEmails_Report.xlsx`)
@@ -85,7 +88,7 @@ Built using UiPath's Robotic Enterprise Framework (REFramework) in C#.
 | Name                      | Type | Description                                   |
 |---------------------------|------|-----------------------------------------------|
 | `ExcelReportPath`         | Text | Path to Excel file in `Data\Output`          |
-| `NotificationEmail`       | Text | Email for sending summary (used by Handler)  |
+| `SummaryNotificationEmail`       | Text | Email for sending summary (used by Handler)  |
 | `ProcessedEmailsFolder`   | Text | Gmail folder for processed partnership emails |
 | `ProcessedAttachmentsFolder` | Text | Gmail folder for emails with CV attachments  |
 

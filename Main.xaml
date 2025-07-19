@@ -36,6 +36,8 @@
       <x:String>System.Numerics</x:String>
       <x:String>GlobalVariablesNamespace</x:String>
       <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -102,6 +104,8 @@
       <AssemblyReference>System.Linq.Parallel</AssemblyReference>
       <AssemblyReference>System.Collections.Immutable</AssemblyReference>
       <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <StateMachine InitialState="{x:Reference __ReferenceID0}" sap2010:Annotation.AnnotationText="T2G_EmailEnricher&#xA;Coordinates email intake and processing for Talents2Germany. Retrieves emails, extracts structured data from senders, writes to Excel, and queues the data for further handling via Orchestrator.&#xA;Moris Mwai" DisplayName="General Business Process" sap:VirtualizedContainerService.HintSize="1315,566.05" sap2010:WorkflowViewState.IdRef="StateMachine_1">
@@ -386,9 +390,9 @@
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
           <Transition.To>
-            <State x:Name="__ReferenceID1" sap2010:Annotation.AnnotationText="Get the next transaction to be processed." DisplayName="Get Transaction Data" sap:VirtualizedContainerService.HintSize="552,2619" sap2010:WorkflowViewState.IdRef="State_3">
+            <State x:Name="__ReferenceID1" sap2010:Annotation.AnnotationText="Get the next transaction to be processed." DisplayName="Get Transaction Data" sap:VirtualizedContainerService.HintSize="210,116" sap2010:WorkflowViewState.IdRef="State_3">
               <State.Entry>
-                <Sequence sap2010:Annotation.AnnotationText="Retrieve a new transaction data to be processed.&#xA;The TransactionNumber variable holds the current transaction number and incrementing this variable makes the framework retrieve the next transaction. If the framework is retrying a failed transaction, this variable is not incremented until the maximum number of retry attempts is reached." DisplayName="Retrieve Data" sap:VirtualizedContainerService.HintSize="506,2174" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <Sequence sap2010:Annotation.AnnotationText="Retrieve a new transaction data to be processed.&#xA;The TransactionNumber variable holds the current transaction number and incrementing this variable makes the framework retrieve the next transaction. If the framework is retrying a failed transaction, this variable is not incremented until the maximum number of retry attempts is reached." DisplayName="Retrieve Data" sap:VirtualizedContainerService.HintSize="506,1706" sap2010:WorkflowViewState.IdRef="Sequence_5">
                   <Sequence.Variables>
                     <Variable x:TypeArguments="x:Boolean" Name="ShouldStop" />
                   </Sequence.Variables>
@@ -411,17 +415,17 @@
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
                   </ui:ShouldStop>
-                  <If DisplayName="Should Stop or Get Next" sap:VirtualizedContainerService.HintSize="472,1925" sap2010:WorkflowViewState.IdRef="If_3">
+                  <If DisplayName="Should Stop or Get Next" sap:VirtualizedContainerService.HintSize="472,1457" sap2010:WorkflowViewState.IdRef="If_3">
                     <If.Condition>
                       <InArgument x:TypeArguments="x:Boolean">
                         <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_12">ShouldStop</CSharpValue>
                       </InArgument>
                     </If.Condition>
                     <If.Then>
-                      <Sequence DisplayName="Orchestrator stop requested" sap:VirtualizedContainerService.HintSize="470,25" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                      <Sequence DisplayName="Orchestrator stop requested" sap:VirtualizedContainerService.HintSize="470,354" sap2010:WorkflowViewState.IdRef="Sequence_3">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                             <x:Boolean x:Key="IsPinned">False</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
@@ -432,41 +436,34 @@
                             </InArgument>
                           </ui:LogMessage.Message>
                         </ui:LogMessage>
-                        <Assign DisplayName="End Process (Stop process requested)" sap:VirtualizedContainerService.HintSize="436,111" sap2010:WorkflowViewState.IdRef="Assign_4">
+                        <Assign DisplayName="End Process (Stop process requested)" sap:VirtualizedContainerService.HintSize="436,111" sap2010:WorkflowViewState.IdRef="Assign_13">
                           <Assign.To>
-                            <OutArgument x:TypeArguments="ui:QueueItem">
-                              <CSharpReference x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpReference`1_6">TransactionItem</CSharpReference>
+                            <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
+                              <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_65">TransactionItem</CSharpReference>
                             </OutArgument>
                           </Assign.To>
                           <Assign.Value>
-                            <InArgument x:TypeArguments="ui:QueueItem">
-                              <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_14">null</CSharpValue>
+                            <InArgument x:TypeArguments="scg:List(snm:MailMessage)">
+                              <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_136">null</CSharpValue>
                             </InArgument>
                           </Assign.Value>
                         </Assign>
                       </Sequence>
                     </If.Then>
                     <If.Else>
-                      <TryCatch DisplayName="Try Catch Get transaction item" sap:VirtualizedContainerService.HintSize="470,1744" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                      <TryCatch DisplayName="Try Catch Get transaction item" sap:VirtualizedContainerService.HintSize="470,947" sap2010:WorkflowViewState.IdRef="TryCatch_2">
                         <TryCatch.Try>
-                          <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="468,1154" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                          <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="468,357" sap2010:WorkflowViewState.IdRef="Sequence_12">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info">
-                              <ui:LogMessage.Message>
-                                <InArgument x:TypeArguments="x:Object">
-                                  <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_89">"Get the recent emails"</CSharpValue>
-                                </InArgument>
-                              </ui:LogMessage.Message>
-                            </ui:LogMessage>
-                            <Assign DisplayName="Assign - Business Exceptions" sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_11">
+                            <Assign DisplayName="Assign - Business Exceptions" sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_15">
                               <Assign.To>
                                 <OutArgument x:TypeArguments="x:String">
-                                  <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_50">ExceptionReason</CSharpReference>
+                                  <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_68">ExceptionReason</CSharpReference>
                                 </OutArgument>
                               </Assign.To>
                               <Assign.Value>
@@ -475,77 +472,46 @@
                                 </InArgument>
                               </Assign.Value>
                             </Assign>
-                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Get Recent Emails" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\GetRecentEmails.xaml">
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="GetTransactionData - Invoke Workflow File (Framework\\GetTransactionData.xaml)" sap:VirtualizedContainerService.HintSize="434,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="Framework\\GetTransactionData.xaml">
                               <ui:InvokeWorkflowFile.Arguments>
-                                <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionReason">
-                                  <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_114">ExceptionReason</CSharpValue>
+                                <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
+                                  <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_67">FilteredEmails</CSharpReference>
+                                </InOutArgument>
+                                <InArgument x:TypeArguments="x:Int32" x:Key="in_TransactionNumber">
+                                  <CSharpValue x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="CSharpValue`1_121">TransactionNumber</CSharpValue>
                                 </InArgument>
                                 <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
-                                  <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_113">Config</CSharpValue>
+                                  <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_122">Config</CSharpValue>
                                 </InArgument>
-                                <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="out_TransactionItem" />
-                                <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TransactionData" />
-                                <OutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="out_RecentEmails">
-                                  <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_32">RecentEmails</CSharpReference>
+                                <OutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="out_TransactionItem">
+                                  <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_60">TransactionItem</CSharpReference>
                                 </OutArgument>
+                                <OutArgument x:TypeArguments="x:String" x:Key="out_TransactionField1">
+                                  <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_52">TransactionField1</CSharpReference>
+                                </OutArgument>
+                                <OutArgument x:TypeArguments="x:String" x:Key="out_TransactionField2">
+                                  <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_53">TransactionField2</CSharpReference>
+                                </OutArgument>
+                                <OutArgument x:TypeArguments="x:String" x:Key="out_TransactionID">
+                                  <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_54">TransactionID</CSharpReference>
+                                </OutArgument>
+                                <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TransactionData">
+                                  <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_55">dt_TransactionData</CSharpReference>
+                                </InOutArgument>
+                                <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_EmailList">
+                                  <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_123">RecentEmails</CSharpValue>
+                                </InArgument>
+                                <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_RecentEmails">
+                                  <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_63">RecentEmails</CSharpReference>
+                                </InOutArgument>
+                                <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails_Attachments">
+                                  <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_69">FilteredEmails_Attachments</CSharpReference>
+                                </InOutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionReason">
+                                  <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_146">ExceptionReason</CSharpValue>
+                                </InArgument>
                               </ui:InvokeWorkflowFile.Arguments>
                             </ui:InvokeWorkflowFile>
-                            <If DisplayName="Check if there are any emails to filter based on criteria" sap:VirtualizedContainerService.HintSize="434,605" sap2010:WorkflowViewState.IdRef="If_7">
-                              <If.Condition>
-                                <InArgument x:TypeArguments="x:Boolean">
-                                  <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_91">RecentEmails.Count &gt; 0</CSharpValue>
-                                </InArgument>
-                              </If.Condition>
-                              <If.Then>
-                                <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="416,237" sap2010:WorkflowViewState.IdRef="Sequence_13">
-                                  <sap:WorkflowViewStateService.ViewState>
-                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                    </scg:Dictionary>
-                                  </sap:WorkflowViewStateService.ViewState>
-                                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="382,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_15" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\FilterEmails.xaml">
-                                    <ui:InvokeWorkflowFile.Arguments>
-                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
-                                        <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_115">Config</CSharpValue>
-                                      </InArgument>
-                                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails_Attachments">
-                                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_44">FilteredEmails_Attachments</CSharpReference>
-                                      </InOutArgument>
-                                      <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="out_TransactionItem" />
-                                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TransactionData" />
-                                      <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_EmailList">
-                                        <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_92">RecentEmails</CSharpValue>
-                                      </InArgument>
-                                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
-                                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_45">FilteredEmails</CSharpReference>
-                                      </InOutArgument>
-                                      <InOutArgument x:TypeArguments="scg:IEnumerable(x:String)" x:Key="io_Attachments">
-                                        <CSharpReference x:TypeArguments="scg:IEnumerable(x:String)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_49">Attachments</CSharpReference>
-                                      </InOutArgument>
-                                      <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionReason">
-                                        <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_116">ExceptionReason</CSharpValue>
-                                      </InArgument>
-                                    </ui:InvokeWorkflowFile.Arguments>
-                                  </ui:InvokeWorkflowFile>
-                                </Sequence>
-                              </If.Then>
-                              <If.Else>
-                                <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,234" sap2010:WorkflowViewState.IdRef="Sequence_14">
-                                  <sap:WorkflowViewStateService.ViewState>
-                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                    </scg:Dictionary>
-                                  </sap:WorkflowViewStateService.ViewState>
-                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info">
-                                    <ui:LogMessage.Message>
-                                      <InArgument x:TypeArguments="x:Object">
-                                        <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_99">"No emails found"</CSharpValue>
-                                      </InArgument>
-                                    </ui:LogMessage.Message>
-                                  </ui:LogMessage>
-                                </Sequence>
-                              </If.Else>
-                            </If>
                           </Sequence>
                         </TryCatch.Try>
                         <TryCatch.Catches>
@@ -560,22 +526,22 @@
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Error">
+                                <ui:LogMessage DisplayName="Log message  (Get transaction data error)" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Fatal">
                                   <ui:LogMessage.Message>
                                     <InArgument x:TypeArguments="x:Object">
-                                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_117">$"An error was encountered while extracting and filtering recent emails: {exception.Message}"</CSharpValue>
+                                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_134">Config["LogMessage_GetTransactionDataError"].ToString()+TransactionNumber.ToString()+". "+exception.Message+" at Source: "+exception.Source</CSharpValue>
                                     </InArgument>
                                   </ui:LogMessage.Message>
                                 </ui:LogMessage>
-                                <Assign DisplayName="End Process (Could not get new transaction)" sap:VirtualizedContainerService.HintSize="434,111" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                <Assign DisplayName="End Process (Could not get new transaction)" sap:VirtualizedContainerService.HintSize="434,111" sap2010:WorkflowViewState.IdRef="Assign_12">
                                   <Assign.To>
-                                    <OutArgument x:TypeArguments="ui:QueueItem">
-                                      <CSharpReference x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpReference`1_42">TransactionItem</CSharpReference>
+                                    <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
+                                      <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_64">TransactionItem</CSharpReference>
                                     </OutArgument>
                                   </Assign.To>
                                   <Assign.Value>
-                                    <InArgument x:TypeArguments="ui:QueueItem">
-                                      <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_109">null</CSharpValue>
+                                    <InArgument x:TypeArguments="scg:List(snm:MailMessage)">
+                                      <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_135">null</CSharpValue>
                                     </InArgument>
                                   </Assign.Value>
                                 </Assign>
@@ -608,7 +574,7 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
               <State.Transitions>
-                <Transition DisplayName="New Transaction" sap:VirtualizedContainerService.HintSize="450,560" sap2010:WorkflowViewState.IdRef="Transition_4">
+                <Transition DisplayName="New Transaction" sap:VirtualizedContainerService.HintSize="520,560" sap2010:WorkflowViewState.IdRef="Transition_4">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <av:PointCollection x:Key="ConnectorLocation">720,341 720,425</av:PointCollection>
@@ -650,8 +616,8 @@
                                   <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
                                     <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_46">FilteredEmails</CSharpReference>
                                   </InOutArgument>
-                                  <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                                    <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_23">TransactionItem</CSharpValue>
+                                  <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                                    <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_138">TransactionItem</CSharpValue>
                                   </InArgument>
                                   <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                                     <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_22">Config</CSharpValue>
@@ -674,8 +640,8 @@
                                       <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                                         <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_48">Config</CSharpValue>
                                       </InArgument>
-                                      <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                                        <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_47">TransactionItem</CSharpValue>
+                                      <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                                        <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_139">TransactionItem</CSharpValue>
                                       </InArgument>
                                       <InOutArgument x:TypeArguments="x:Int32" x:Key="io_RetryNumber">
                                         <CSharpReference x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="CSharpReference`1_19">RetryNumber</CSharpReference>
@@ -775,8 +741,8 @@
                                           <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                                             <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_59">Config</CSharpValue>
                                           </InArgument>
-                                          <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                                            <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_58">TransactionItem</CSharpValue>
+                                          <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                                            <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_140">TransactionItem</CSharpValue>
                                           </InArgument>
                                           <InOutArgument x:TypeArguments="x:Int32" x:Key="io_RetryNumber">
                                             <CSharpReference x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="CSharpReference`1_24">RetryNumber</CSharpReference>
@@ -876,8 +842,8 @@
                                           <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                                             <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_70">Config</CSharpValue>
                                           </InArgument>
-                                          <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                                            <CSharpValue x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpValue`1_69">TransactionItem</CSharpValue>
+                                          <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                                            <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_141">TransactionItem</CSharpValue>
                                           </InArgument>
                                           <InOutArgument x:TypeArguments="x:Int32" x:Key="io_RetryNumber">
                                             <CSharpReference x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="CSharpReference`1_27">RetryNumber</CSharpReference>
@@ -1012,7 +978,7 @@
                     </State>
                   </Transition.To>
                   <Transition.Action>
-                    <ui:LogMessage DisplayName="Log message (New transaction retrieved)" sap:VirtualizedContainerService.HintSize="347,151" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info">
+                    <ui:LogMessage DisplayName="Log message (New transaction retrieved)" sap:VirtualizedContainerService.HintSize="417,151" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info">
                       <ui:LogMessage.Message>
                         <InArgument x:TypeArguments="x:Object">
                           <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_19">Config["LogMessage_GetTransactionData"].ToString()+TransactionNumber.ToString()</CSharpValue>
@@ -1021,10 +987,10 @@
                     </ui:LogMessage>
                   </Transition.Action>
                   <Transition.Condition>
-                    <CSharpValue x:TypeArguments="x:Boolean" DisplayName="C sharp value" sap2010:WorkflowViewState.IdRef="CSharpValue`1_110">RecentEmails.Count &gt; 0</CSharpValue>
+                    <CSharpValue x:TypeArguments="x:Boolean" DisplayName="C sharp value" sap2010:WorkflowViewState.IdRef="CSharpValue`1_143">TransactionItem != null &amp;&amp; TransactionItem.Count &gt; 0</CSharpValue>
                   </Transition.Condition>
                 </Transition>
-                <Transition sap2010:Annotation.AnnotationText="This is a simple mecanism to stop the process.&#xA;In reallife scenario you can stop the process when there is no more data to process or on a schedule." DisplayName="No Data" sap:VirtualizedContainerService.HintSize="503,632" sap2010:WorkflowViewState.IdRef="Transition_11">
+                <Transition sap2010:Annotation.AnnotationText="This is a simple mecanism to stop the process.&#xA;In reallife scenario you can stop the process when there is no more data to process or on a schedule." DisplayName="No Data" sap:VirtualizedContainerService.HintSize="520,632" sap2010:WorkflowViewState.IdRef="Transition_11">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <av:PointCollection x:Key="ConnectorLocation">720,225 720,166</av:PointCollection>
@@ -1121,7 +1087,7 @@
                     </State>
                   </Transition.To>
                   <Transition.Action>
-                    <ui:LogMessage DisplayName="Log message (No more transations available)" sap:VirtualizedContainerService.HintSize="400,151" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
+                    <ui:LogMessage DisplayName="Log message (No more transations available)" sap:VirtualizedContainerService.HintSize="417,151" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
                       <ui:LogMessage.Message>
                         <InArgument x:TypeArguments="x:Object">
                           <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_37">"Process finished due to no more transaction data"</CSharpValue>
@@ -1130,13 +1096,10 @@
                     </ui:LogMessage>
                   </Transition.Action>
                   <Transition.Condition>
-                    <CSharpValue x:TypeArguments="x:Boolean" DisplayName="C sharp value" sap2010:WorkflowViewState.IdRef="CSharpValue`1_119">TransactionItem == null || BusinessException != null</CSharpValue>
+                    <CSharpValue x:TypeArguments="x:Boolean" DisplayName="C sharp value" sap2010:WorkflowViewState.IdRef="CSharpValue`1_144">TransactionItem == null || TransactionItem.Count == 0</CSharpValue>
                   </Transition.Condition>
                 </Transition>
               </State.Transitions>
-              <State.Variables>
-                <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="RecentEmails" />
-              </State.Variables>
             </State>
           </Transition.To>
           <Transition.Action>
@@ -1177,7 +1140,7 @@
     <x:Reference>__ReferenceID2</x:Reference>
     <StateMachine.Variables>
       <Variable x:TypeArguments="s:Exception" sap2010:Annotation.AnnotationText="Used during transitions between states to represent exceptions other than business exceptions." Name="SystemException" />
-      <Variable x:TypeArguments="ui:QueueItem" sap2010:Annotation.AnnotationText="Transaction item to be processed. The type of this variable can be changed to match the transaction type in the process. For example, when processing data from a spreadsheet that is read into a DataTable, this type can be changed to DataRow. " Name="TransactionItem" />
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" sap2010:Annotation.AnnotationText="Transaction item to be processed. The type of this variable can be changed to match the transaction type in the process. For example, when processing data from a spreadsheet that is read into a DataTable, this type can be changed to DataRow. " Name="TransactionItem" />
       <Variable x:TypeArguments="ui:BusinessRuleException" sap2010:Annotation.AnnotationText="Used during transitions between states and represents a situation that does not conform to the rules of the process being automated." Name="BusinessException" />
       <Variable x:TypeArguments="x:Int32" sap2010:Annotation.AnnotationText="Sequential counter of transaction items." Default="1" Name="TransactionNumber" />
       <Variable x:TypeArguments="x:Int32" sap2010:Annotation.AnnotationText="Used to control the number of attempts of retrying the transaction processing in case of system exceptions." Default="0" Name="RetryNumber" />
@@ -1191,6 +1154,7 @@
       <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="Config" />
       <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="Attachments" />
       <Variable x:TypeArguments="x:String" Name="ExceptionReason" />
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="RecentEmails" />
     </StateMachine.Variables>
   </StateMachine>
 </Activity>

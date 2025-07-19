@@ -2,7 +2,7 @@
   <x:Members>
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
-    <x:Property Name="out_TransactionItem" Type="InOutArgument(ui:QueueItem)" />
+    <x:Property Name="out_TransactionItem" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="io_dt_TransactionData" Type="InOutArgument(sd:DataTable)" />
     <x:Property Name="in_EmailList" Type="InArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
@@ -246,7 +246,7 @@
       <AssemblyReference>System.Xml.XPath.XDocument</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,4551" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,5164" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="body" />
       <Variable x:TypeArguments="x:String" Name="subject" />
@@ -267,9 +267,9 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="578,4528" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="578,5141" sap2010:WorkflowViewState.IdRef="TryCatch_2">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="576,3144" sap2010:WorkflowViewState.IdRef="Sequence_10">
+        <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="576,3391" sap2010:WorkflowViewState.IdRef="Sequence_10">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -283,13 +283,13 @@
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>
-          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Found Email" sap:VirtualizedContainerService.HintSize="542,2272" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
+          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Found Email" sap:VirtualizedContainerService.HintSize="542,2519" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
             <ui:ForEach.Body>
               <ActivityAction x:TypeArguments="snm:MailMessage">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="CurrentMail" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="540,2137" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="540,2384" sap2010:WorkflowViewState.IdRef="Sequence_19">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -307,26 +307,41 @@
                       </InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:IfElseIfV2 DisplayName="Check if the email contains &quot;i am interested in your program&quot;(Must have a CV)" sap:VirtualizedContainerService.HintSize="506,1957" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
+                  <ui:IfElseIfV2 DisplayName="Check if the email contains &quot;i am interested in your program&quot;(Must have a CV)" sap:VirtualizedContainerService.HintSize="506,2204" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
                     <ui:IfElseIfV2.Condition>
                       <InArgument x:TypeArguments="x:Boolean">
                         <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_48">MailText.Contains("i am interested in your program")</CSharpValue>
                       </InArgument>
                     </ui:IfElseIfV2.Condition>
                     <ui:IfElseIfV2.Else>
-                      <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="504,234" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                      <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="504,481" sap2010:WorkflowViewState.IdRef="Sequence_27">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="470,174" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Warn">
+                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="470,183" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Warn">
                           <ui:LogMessage.Message>
                             <InArgument x:TypeArguments="x:Object">
                               <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_62">"No emails found matching criteria"</CSharpValue>
                             </InArgument>
                           </ui:LogMessage.Message>
                         </ui:LogMessage>
+                        <Assign sap:VirtualizedContainerService.HintSize="470,120" sap2010:WorkflowViewState.IdRef="Assign_10">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">
+                              <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_37">in_ExceptionReason</CSharpReference>
+                            </OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">NoFilteredEmailsFound</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Throw sap:VirtualizedContainerService.HintSize="470,118" sap2010:WorkflowViewState.IdRef="Throw_3">
+                          <InArgument x:TypeArguments="s:Exception">
+                            <CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_116">new BusinessRuleException("No emails matching criteria")</CSharpValue>
+                          </InArgument>
+                        </Throw>
                       </Sequence>
                     </ui:IfElseIfV2.Else>
                     <ui:IfElseIfV2.ElseIfs>
@@ -567,14 +582,14 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="576,849" sap2010:WorkflowViewState.IdRef="Sequence_30">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="576,1215" sap2010:WorkflowViewState.IdRef="Sequence_30">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   <x:Boolean x:Key="IsPinned">False</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="542,741" sap2010:WorkflowViewState.IdRef="Sequence_37">
+              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="542,1107" sap2010:WorkflowViewState.IdRef="Sequence_37">
                 <Sequence.Variables>
                   <Variable x:TypeArguments="x:String" Name="str_FolderPath" />
                   <Variable x:TypeArguments="x:String" Name="str_FilePath" />
@@ -613,7 +628,14 @@
                     </InOutArgument>
                   </ui:InvokeWorkflowFile.Arguments>
                 </ui:InvokeWorkflowFile>
-                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail" EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="434,48" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_2" Timeout="90" UseConnectionService="False">
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info">
+                  <ui:LogMessage.Message>
+                    <InArgument x:TypeArguments="x:Object">
+                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_117">"Preparing to send system exception email..."</CSharpValue>
+                    </InArgument>
+                  </ui:LogMessage.Message>
+                </ui:LogMessage>
+                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail" EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="434,57" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_2" Timeout="90" UseConnectionService="False">
                   <umab:GmailApplicationCard.Body>
                     <ActivityAction x:TypeArguments="um:IMailQuickHandle">
                       <ActivityAction.Argument>
@@ -684,6 +706,13 @@
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                 </umab:GmailApplicationCard>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,174" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info">
+                  <ui:LogMessage.Message>
+                    <InArgument x:TypeArguments="x:Object">
+                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_118">"System exception email sent successfully to: " + in_Config["SummaryNotificationEmail"].ToString()</CSharpValue>
+                    </InArgument>
+                  </ui:LogMessage.Message>
+                </ui:LogMessage>
               </Sequence>
               <Rethrow sap:VirtualizedContainerService.HintSize="542,48" sap2010:WorkflowViewState.IdRef="Rethrow_3" />
             </Sequence>

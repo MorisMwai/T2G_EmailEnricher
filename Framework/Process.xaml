@@ -3,7 +3,7 @@
     <x:Property Name="in_ExceptionReason" Type="InArgument(x:String)" />
     <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
-    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(scg:List(snm:MailMessage))" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
@@ -233,8 +233,8 @@
                       <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
                         <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_61">io_FilteredEmails</CSharpReference>
                       </InOutArgument>
-                      <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                        <CSharpReference x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpReference`1_22">in_TransactionItem</CSharpReference>
+                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_70">in_TransactionItem</CSharpReference>
                       </InOutArgument>
                       <InArgument x:TypeArguments="x:String" x:Key="in_dateProcessed">
                         <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_51">dateProcessed</CSharpValue>
@@ -261,8 +261,8 @@
                   </ui:InvokeWorkflowFile>
                   <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Append Metadata To Excel" sap:VirtualizedContainerService.HintSize="382,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Dispatcher\\Excel\\AppendMetadataToExcel.xaml">
                     <ui:InvokeWorkflowFile.Arguments>
-                      <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                        <CSharpReference x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpReference`1_38">in_TransactionItem</CSharpReference>
+                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_71">in_TransactionItem</CSharpReference>
                       </InOutArgument>
                       <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                         <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_43">in_Config</CSharpValue>
@@ -322,8 +322,8 @@
               <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
                 <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_60">FilteredEmails</CSharpReference>
               </InOutArgument>
-              <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">
-                <CSharpReference x:TypeArguments="ui:QueueItem" sap2010:WorkflowViewState.IdRef="CSharpReference`1_48">in_TransactionItem</CSharpReference>
+              <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_72">in_TransactionItem</CSharpReference>
               </InOutArgument>
               <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                 <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_71">in_Config</CSharpValue>

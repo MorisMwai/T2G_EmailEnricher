@@ -246,7 +246,7 @@
       <AssemblyReference>System.Xml.XPath.XDocument</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,5538" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,5862" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="body" />
       <Variable x:TypeArguments="x:String" Name="subject" />
@@ -261,15 +261,17 @@
           <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_113">new List&lt;MailMessage&gt;()</CSharpValue>
         </Variable.Default>
       </Variable>
+      <Variable x:TypeArguments="x:Boolean" Name="hasValidEmails" />
+      <Variable x:TypeArguments="x:Boolean" Name="hasMissingAttachment" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="578,5515" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="578,5839" sap2010:WorkflowViewState.IdRef="TryCatch_2">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="576,3679" sap2010:WorkflowViewState.IdRef="Sequence_10">
+        <Sequence sap2010:Annotation.AnnotationText="Filter for emails matching key phrases" DisplayName="Filter Emails" sap:VirtualizedContainerService.HintSize="576,4089" sap2010:WorkflowViewState.IdRef="Sequence_10">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -283,13 +285,33 @@
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>
-          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Found Email" sap:VirtualizedContainerService.HintSize="542,2272" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
+          <Assign sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_12">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">
+                <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_44">hasValidEmails</CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_13">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">
+                <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_45">hasMissingAttachment</CSharpReference>
+              </OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Found Email" sap:VirtualizedContainerService.HintSize="542,2385" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
             <ui:ForEach.Body>
               <ActivityAction x:TypeArguments="snm:MailMessage">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="CurrentMail" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="540,2137" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="540,2250" sap2010:WorkflowViewState.IdRef="Sequence_19">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -307,7 +329,7 @@
                       </InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:IfElseIfV2 DisplayName="Check if the email contains &quot;i am interested in your program&quot;(Must have a CV)" sap:VirtualizedContainerService.HintSize="506,1957" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
+                  <ui:IfElseIfV2 DisplayName="Check if the email contains &quot;i am interested in your program&quot;(Must have a CV)" sap:VirtualizedContainerService.HintSize="506,2070" sap2010:WorkflowViewState.IdRef="IfElseIfV2_1">
                     <ui:IfElseIfV2.Condition>
                       <InArgument x:TypeArguments="x:Boolean">
                         <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_48">MailText.Contains("i am interested in your program")</CSharpValue>
@@ -338,13 +360,13 @@
                             </InArgument>
                           </ui:IfElseIfBlock.Condition>
                           <ui:IfElseIfBlock.Then>
-                            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="504,234" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="504,354" sap2010:WorkflowViewState.IdRef="Sequence_28">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                 </scg:Dictionary>
                               </sap:WorkflowViewStateService.ViewState>
-                              <uasc:AppendItemToCollection x:TypeArguments="snm:MailMessage" DisplayName="Append Items to Collection" sap:VirtualizedContainerService.HintSize="470,174" sap2010:WorkflowViewState.IdRef="AppendItemToCollection`1_2">
+                              <uasc:AppendItemToCollection x:TypeArguments="snm:MailMessage" DisplayName="Append Items to Collection" sap:VirtualizedContainerService.HintSize="470,183" sap2010:WorkflowViewState.IdRef="AppendItemToCollection`1_2">
                                 <uasc:AppendItemToCollection.Collection>
                                   <InArgument x:TypeArguments="scg:ICollection(snm:MailMessage)">
                                     <CSharpValue x:TypeArguments="scg:ICollection(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_57">FilteredList</CSharpValue>
@@ -358,19 +380,29 @@
                                   </scg:List>
                                 </uasc:AppendItemToCollection.Items>
                               </uasc:AppendItemToCollection>
+                              <Assign sap:VirtualizedContainerService.HintSize="470,111" sap2010:WorkflowViewState.IdRef="Assign_16">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">
+                                    <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_48">hasValidEmails</CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
                             </Sequence>
                           </ui:IfElseIfBlock.Then>
                         </ui:IfElseIfBlock>
                       </sc1:BindingList>
                     </ui:IfElseIfV2.ElseIfs>
                     <ui:IfElseIfV2.Then>
-                      <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="504,1268" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                      <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="504,1261" sap2010:WorkflowViewState.IdRef="Sequence_26">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <If DisplayName="Check if there are any attachments" sap:VirtualizedContainerService.HintSize="470,1208" sap2010:WorkflowViewState.IdRef="If_3">
+                        <If DisplayName="Check if there are any attachments" sap:VirtualizedContainerService.HintSize="470,1201" sap2010:WorkflowViewState.IdRef="If_3">
                           <If.Condition>
                             <InArgument x:TypeArguments="x:Boolean">
                               <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_20" xml:space="preserve">CurrentMail.Attachments.Any(att =&gt;
@@ -381,7 +413,7 @@
                             </InArgument>
                           </If.Condition>
                           <If.Then>
-                            <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="468,593" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                            <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="468,713" sap2010:WorkflowViewState.IdRef="Sequence_16">
                               <Sequence.Variables>
                                 <Variable x:TypeArguments="x:String" Name="AttachmentsFolder" />
                               </Sequence.Variables>
@@ -414,7 +446,7 @@
                                   <InArgument x:TypeArguments="x:String">Data\Output\Attachments</InArgument>
                                 </Assign.Value>
                               </Assign>
-                              <ui:SaveMailAttachments ResourceAttachments="{x:Null}" DisplayName="Save Email Attachments" ExcludeInlineAttachments="False" sap:VirtualizedContainerService.HintSize="434,230" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" OverwriteExisting="False">
+                              <ui:SaveMailAttachments ResourceAttachments="{x:Null}" DisplayName="Save Email Attachments" ExcludeInlineAttachments="False" sap:VirtualizedContainerService.HintSize="434,239" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" OverwriteExisting="False">
                                 <ui:SaveMailAttachments.Attachments>
                                   <OutArgument x:TypeArguments="scg:IEnumerable(x:String)">
                                     <CSharpReference x:TypeArguments="scg:IEnumerable(x:String)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_18">io_Attachments</CSharpReference>
@@ -431,10 +463,20 @@
                                   </InArgument>
                                 </ui:SaveMailAttachments.Message>
                               </ui:SaveMailAttachments>
+                              <Assign sap:VirtualizedContainerService.HintSize="434,111" sap2010:WorkflowViewState.IdRef="Assign_14">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">
+                                    <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_46">hasValidEmails</CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
                             </Sequence>
                           </If.Then>
                           <If.Else>
-                            <Sequence DisplayName="Else - To throw a Business Exception" sap:VirtualizedContainerService.HintSize="468,481" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                            <Sequence DisplayName="Else - To throw a Business Exception" sap:VirtualizedContainerService.HintSize="468,354" sap2010:WorkflowViewState.IdRef="Sequence_17">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -443,25 +485,20 @@
                               <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Warn">
                                 <ui:LogMessage.Message>
                                   <InArgument x:TypeArguments="x:Object">
-                                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_111">"No valid attachments"</CSharpValue>
+                                    <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_126">$"Skipping email due to missing attachment: {CurrentMail.Subject}"</CSharpValue>
                                   </InArgument>
                                 </ui:LogMessage.Message>
                               </ui:LogMessage>
-                              <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_8">
+                              <Assign sap:VirtualizedContainerService.HintSize="434,111" sap2010:WorkflowViewState.IdRef="Assign_15">
                                 <Assign.To>
-                                  <OutArgument x:TypeArguments="x:String">
-                                    <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_21">in_ExceptionReason</CSharpReference>
+                                  <OutArgument x:TypeArguments="x:Boolean">
+                                    <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_47">hasMissingAttachment</CSharpReference>
                                   </OutArgument>
                                 </Assign.To>
                                 <Assign.Value>
-                                  <InArgument x:TypeArguments="x:String">MissingAttachment</InArgument>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
                                 </Assign.Value>
                               </Assign>
-                              <Throw sap:VirtualizedContainerService.HintSize="434,118" sap2010:WorkflowViewState.IdRef="Throw_2">
-                                <InArgument x:TypeArguments="s:Exception">
-                                  <CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_35">new BusinessRuleException("No valid attachments")</CSharpValue>
-                                </InArgument>
-                              </Throw>
                             </Sequence>
                           </If.Else>
                         </If>
@@ -483,46 +520,6 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
           </ui:ForEach>
-          <If DisplayName="Check if there are no filtered emails found" sap:VirtualizedContainerService.HintSize="542,535" sap2010:WorkflowViewState.IdRef="If_4">
-            <If.Condition>
-              <InArgument x:TypeArguments="x:Boolean">
-                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_119">FilteredList.Count == 0 &amp;&amp; FilteredList_Attachments.Count == 0</CSharpValue>
-              </InArgument>
-            </If.Condition>
-            <If.Then>
-              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="468,298" sap2010:WorkflowViewState.IdRef="Sequence_38">
-                <sap:WorkflowViewStateService.ViewState>
-                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  </scg:Dictionary>
-                </sap:WorkflowViewStateService.ViewState>
-                <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_11">
-                  <Assign.To>
-                    <OutArgument x:TypeArguments="x:String">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_38">in_ExceptionReason</CSharpReference>
-                    </OutArgument>
-                  </Assign.To>
-                  <Assign.Value>
-                    <InArgument x:TypeArguments="x:String">NoFilteredEmailsFound</InArgument>
-                  </Assign.Value>
-                </Assign>
-                <Throw sap:VirtualizedContainerService.HintSize="434,118" sap2010:WorkflowViewState.IdRef="Throw_4">
-                  <InArgument x:TypeArguments="s:Exception">
-                    <CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_120">new BusinessRuleException("No emails matching criteria")</CSharpValue>
-                  </InArgument>
-                </Throw>
-              </Sequence>
-            </If.Then>
-            <If.Else>
-              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="468,94" sap2010:WorkflowViewState.IdRef="Sequence_39">
-                <sap:WorkflowViewStateService.ViewState>
-                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  </scg:Dictionary>
-                </sap:WorkflowViewStateService.ViewState>
-              </Sequence>
-            </If.Else>
-          </If>
           <Assign DisplayName="Assign - Filtered Emails with Attachments" sap:VirtualizedContainerService.HintSize="542,120" sap2010:WorkflowViewState.IdRef="Assign_5">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:List(snm:MailMessage)">
@@ -566,13 +563,99 @@
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="542,174" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info">
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="542,183" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info">
             <ui:LogMessage.Message>
               <InArgument x:TypeArguments="x:Object">
                 <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_65">$"Filtered {io_FilteredEmails_Attachments.Count} emails with attachments from the original {in_EmailList.Count}."</CSharpValue>
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>
+          <If DisplayName="Check if there are no filtered emails found" sap:VirtualizedContainerService.HintSize="542,57" sap2010:WorkflowViewState.IdRef="If_4">
+            <If.Condition>
+              <InArgument x:TypeArguments="x:Boolean">
+                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_127">hasValidEmails == false</CSharpValue>
+              </InArgument>
+            </If.Condition>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="468,298" sap2010:WorkflowViewState.IdRef="Sequence_38">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_11">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_38">in_ExceptionReason</CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">NoFilteredEmailsFound</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Throw sap:VirtualizedContainerService.HintSize="434,118" sap2010:WorkflowViewState.IdRef="Throw_4">
+                  <InArgument x:TypeArguments="s:Exception">
+                    <CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_120">new BusinessRuleException("No emails matching criteria")</CSharpValue>
+                  </InArgument>
+                </Throw>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="468,94" sap2010:WorkflowViewState.IdRef="Sequence_39">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
+            </If.Else>
+          </If>
+          <If DisplayName="Check if there are emails without attachments" sap:VirtualizedContainerService.HintSize="542,526" sap2010:WorkflowViewState.IdRef="If_5">
+            <If.Condition>
+              <InArgument x:TypeArguments="x:Boolean">
+                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_128">hasMissingAttachment == true</CSharpValue>
+              </InArgument>
+            </If.Condition>
+            <If.Then>
+              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="468,298" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_17">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_49">in_ExceptionReason</CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">MissingAttachment</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Throw sap:VirtualizedContainerService.HintSize="434,118" sap2010:WorkflowViewState.IdRef="Throw_5">
+                  <InArgument x:TypeArguments="s:Exception">
+                    <CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_130">new BusinessRuleException("No valid attachments: ")</CSharpValue>
+                  </InArgument>
+                </Throw>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="468,94" sap2010:WorkflowViewState.IdRef="Sequence_41">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
+            </If.Else>
+          </If>
         </Sequence>
       </TryCatch.Try>
       <TryCatch.Catches>
@@ -581,15 +664,17 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="576,323" sap2010:WorkflowViewState.IdRef="Sequence_29">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="576,237" sap2010:WorkflowViewState.IdRef="Sequence_29">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="SendBusinessExceptionEmail - Invoke Workflow File (Dispatcher\\Email\\SendBusinessExceptionEmail.xaml)" sap:VirtualizedContainerService.HintSize="542,263" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\SendBusinessExceptionEmail.xaml">
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="SendBusinessExceptionEmail - Invoke Workflow File (Dispatcher\\Email\\SendBusinessExceptionEmail.xaml)" sap:VirtualizedContainerService.HintSize="542,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\SendBusinessExceptionEmail.xaml">
                 <ui:InvokeWorkflowFile.Arguments>
-                  <InOutArgument x:TypeArguments="ui:QueueItem" x:Key="out_TransactionItem" />
+                  <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="out_TransactionItem">
+                    <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_39">out_TransactionItem</CSharpReference>
+                  </InOutArgument>
                   <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TransactionData" />
                   <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionReason">
                     <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_107">in_ExceptionReason</CSharpValue>

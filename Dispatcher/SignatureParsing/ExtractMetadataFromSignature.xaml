@@ -1,5 +1,6 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="ExtractMetadataFromSignature" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:um="clr-namespace:UiPath.Mail;assembly=UiPath.Mail.Activities" xmlns:umab="clr-namespace:UiPath.Mail.Activities.Business;assembly=UiPath.Mail.Activities" xmlns:umabh="clr-namespace:UiPath.Mail.Activities.Business.HtmlEditor;assembly=UiPath.Mail.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
+    <x:Property Name="in_CurrentMail" Type="InArgument(snm:MailMessage)" />
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="in_TransactionItem" Type="InOutArgument(scg:List(snm:MailMessage))" />
@@ -158,7 +159,7 @@
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:String">
-                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_7">io_FilteredEmails.FirstOrDefault() != null ? io_FilteredEmails.FirstOrDefault().Body : null</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_43">in_CurrentMail.Body</CSharpValue>
                     </InArgument>
                   </ui:AssignOperation.Value>
                 </ui:AssignOperation>
@@ -170,7 +171,7 @@
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:String">
-                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_8">io_FilteredEmails.FirstOrDefault() != null ? (io_FilteredEmails.FirstOrDefault().From != null ? io_FilteredEmails.FirstOrDefault().From.DisplayName : null) : null</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_44">in_CurrentMail.From == null ? null : in_CurrentMail.From.DisplayName</CSharpValue>
                     </InArgument>
                   </ui:AssignOperation.Value>
                 </ui:AssignOperation>
@@ -182,7 +183,7 @@
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:String">
-                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_9">io_FilteredEmails != null &amp;&amp; io_FilteredEmails.Count &gt; 0 &amp;&amp; io_FilteredEmails[0] != null &amp;&amp; io_FilteredEmails[0].From != null ? io_FilteredEmails[0].From.Address : null</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_45">in_CurrentMail.From == null ? null : in_CurrentMail.From.Address</CSharpValue>
                     </InArgument>
                   </ui:AssignOperation.Value>
                 </ui:AssignOperation>
@@ -194,7 +195,7 @@
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
                     <InArgument x:TypeArguments="x:String">
-                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_10">io_FilteredEmails.FirstOrDefault() != null ? io_FilteredEmails.FirstOrDefault().Subject : null</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_46">in_CurrentMail.Subject</CSharpValue>
                     </InArgument>
                   </ui:AssignOperation.Value>
                 </ui:AssignOperation>
@@ -215,7 +216,7 @@
                     </OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
-                    <InArgument x:TypeArguments="x:String">(?i)(.*?)(?=\s*\n\s*[A-Z]{2}\s?[\d\s]{7,15}|$)</InArgument>
+                    <InArgument x:TypeArguments="x:String">(?&lt;=\n)(?!Regards|Best|Sincerely)[^\n]+(?=\n\s*(?:VAT\s*ID:|VAT:)?\s*[A-Z]{2}\d{7,15})</InArgument>
                   </ui:AssignOperation.Value>
                 </ui:AssignOperation>
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_7">
@@ -248,7 +249,7 @@
               </InArgument>
             </ui:Matches.Pattern>
           </ui:Matches>
-          <ui:Matches BuilderPattern="(?i)(.*?)(?=\s*\n\s*[A-Z]{2}\s?[\d\s]{7,15}|$)" DisplayName="Find Matching Patterns - Address" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_3" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)(.*?)(?=\\s*\\n\\s*[A-Z]{2}\\s?[\\d\\s]{7,15}|$)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
+          <ui:Matches BuilderPattern="(?&lt;=\n)(?!Regards|Best|Sincerely)[^\n]+(?=\n\s*(?:VAT\s*ID:|VAT:)?\s*[A-Z]{2}\d{7,15})" DisplayName="Find Matching Patterns - Address" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_3" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=\\n)(?!Regards|Best|Sincerely)[^\\n]+(?=\\n\\s*(?:VAT\\s*ID:|VAT:)?\\s*[A-Z]{2}\\d{7,15})&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
             <ui:Matches.FirstMatch>
               <OutArgument x:TypeArguments="x:String">
                 <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_19">out_str_Address</CSharpReference>
@@ -261,11 +262,11 @@
             </ui:Matches.Input>
             <ui:Matches.Pattern>
               <InArgument x:TypeArguments="x:String">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_28">patternAddress</CSharpValue>
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_47">patternAddress</CSharpValue>
               </InArgument>
             </ui:Matches.Pattern>
           </ui:Matches>
-          <ui:Matches BuilderPattern="(?i)\b([A-Z]{2}\d{7,15})\b" DisplayName="Find Matching Patterns - VAT ID" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_2" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)\\b([A-Z]{2}\\d{7,15})\\b&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(?i)\b([A-Z]{2}\d{7,15})\b" RegexOption="IgnoreCase, Compiled">
+          <ui:Matches BuilderPattern="(?i)\b([A-Z]{2}\d{7,15})\b" DisplayName="Find Matching Patterns - VAT ID" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_2" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)\\b([A-Z]{2}\\d{7,15})\\b&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
             <ui:Matches.FirstMatch>
               <OutArgument x:TypeArguments="x:String">
                 <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_20">out_str_VatId</CSharpReference>
@@ -276,6 +277,11 @@
                 <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_15">signatureText</CSharpValue>
               </InArgument>
             </ui:Matches.Input>
+            <ui:Matches.Pattern>
+              <InArgument x:TypeArguments="x:String">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_42">patternVatId</CSharpValue>
+              </InArgument>
+            </ui:Matches.Pattern>
           </ui:Matches>
           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="481,174" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
             <ui:LogMessage.Message>

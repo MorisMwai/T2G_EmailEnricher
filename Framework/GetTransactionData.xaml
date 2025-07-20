@@ -12,6 +12,7 @@
     <x:Property Name="io_RecentEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="in_ExceptionReason" Type="InArgument(x:String)" />
+    <x:Property Name="io_Attachments" Type="InArgument(scg:IEnumerable(x:String))" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap:VirtualizedContainerService.HintSize>1382,2059.3333333333335</sap:VirtualizedContainerService.HintSize>
@@ -135,7 +136,7 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:RetryScope DisplayName="Retry Get transaction item" sap:VirtualizedContainerService.HintSize="514,1753" sap2010:WorkflowViewState.IdRef="RetryScope_1">
+    <ui:RetryScope DisplayName="Retry Get transaction item" sap:VirtualizedContainerService.HintSize="514,1721" sap2010:WorkflowViewState.IdRef="RetryScope_1">
       <ui:RetryScope.ActivityBody>
         <ActivityAction>
           <TryCatch DisplayName="Try Catch Get transaction item" sap:VirtualizedContainerService.HintSize="472,1536" sap2010:WorkflowViewState.IdRef="TryCatch_1">
@@ -178,10 +179,6 @@
                       </If.Condition>
                       <If.Then>
                         <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="416,237" sap2010:WorkflowViewState.IdRef="Sequence_9">
-                          <Sequence.Variables>
-                            <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="in_Config" />
-                            <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="io_Attachments" />
-                          </Sequence.Variables>
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>

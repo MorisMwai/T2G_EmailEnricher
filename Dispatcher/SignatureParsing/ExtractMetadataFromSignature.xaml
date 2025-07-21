@@ -3,14 +3,14 @@
     <x:Property Name="in_CurrentMail" Type="InArgument(snm:MailMessage)" />
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
-    <x:Property Name="in_TransactionItem" Type="InOutArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="in_TransactionItem" Type="InArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="in_dateProcessed" Type="InArgument(x:String)" />
-    <x:Property Name="out_senderName" Type="OutArgument(x:String)" />
-    <x:Property Name="out_str_Email" Type="OutArgument(x:String)" />
-    <x:Property Name="out_str_Company" Type="OutArgument(x:String)" />
-    <x:Property Name="out_str_Address" Type="OutArgument(x:String)" />
-    <x:Property Name="out_str_VatId" Type="OutArgument(x:String)" />
-    <x:Property Name="out_emailSubject" Type="OutArgument(x:String)" />
+    <x:Property Name="out_SenderName" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Email" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Company" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Address" Type="OutArgument(x:String)" />
+    <x:Property Name="out_VatId" Type="OutArgument(x:String)" />
+    <x:Property Name="out_EmailSubject" Type="OutArgument(x:String)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
@@ -119,7 +119,7 @@
       <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,2581" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,3244" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="signatureText" />
       <Variable x:TypeArguments="x:String" Name="patternCompany" />
@@ -131,9 +131,9 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="517,2558" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch DisplayName="Try Catch - Extract email metadata from signature" sap:VirtualizedContainerService.HintSize="572,3221" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="Extract sender name, company, VAT ID, address, and email from body/signature" DisplayName="Extract Email Metadata" sap:VirtualizedContainerService.HintSize="515,1084" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <Sequence sap2010:Annotation.AnnotationText="Extract sender name, company, VAT ID, address, and email from body/signature" DisplayName="Extract Email Metadata" sap:VirtualizedContainerService.HintSize="570,1084" sap2010:WorkflowViewState.IdRef="Sequence_3">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -141,14 +141,14 @@
               <x:Boolean x:Key="IsPinned">False</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Log Message " sap:VirtualizedContainerService.HintSize="481,183" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info">
+          <ui:LogMessage DisplayName="Log Message " sap:VirtualizedContainerService.HintSize="536,183" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info">
             <ui:LogMessage.Message>
               <InArgument x:TypeArguments="x:Object">
                 <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_29">$"Extracting metadata from filtered emails"</CSharpValue>
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>
-          <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="481,339" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+          <ui:MultipleAssign DisplayName="Multiple Assign - Email Metadata" sap:VirtualizedContainerService.HintSize="536,339" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
             <ui:MultipleAssign.AssignOperations>
               <scg:List x:TypeArguments="ui:AssignOperation" Capacity="8">
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
@@ -166,7 +166,7 @@
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
                   <ui:AssignOperation.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_16">out_senderName</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_16">out_SenderName</CSharpReference>
                     </OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
@@ -178,7 +178,7 @@
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
                   <ui:AssignOperation.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_17">out_str_Email</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_17">out_Email</CSharpReference>
                     </OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
@@ -190,7 +190,7 @@
                 <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
                   <ui:AssignOperation.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_18">out_emailSubject</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_18">out_EmailSubject</CSharpReference>
                     </OutArgument>
                   </ui:AssignOperation.To>
                   <ui:AssignOperation.Value>
@@ -232,10 +232,10 @@
               </scg:List>
             </ui:MultipleAssign.AssignOperations>
           </ui:MultipleAssign>
-          <ui:Matches BuilderPattern="(?i)(?&lt;=\b(?:regards|best|sincerely)[,\s]*\n)(?&lt;Company&gt;[^\r\n,]+)" DisplayName="Find Matching Patterns - Company" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_1" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)(?&lt;=\\b(?:regards|best|sincerely)[,\\s]*\\n)(?&lt;Company&gt;[^\\r\\n,]+)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
+          <ui:Matches BuilderPattern="(?i)(?&lt;=\b(?:regards|best|sincerely)[,\s]*\n)(?&lt;Company&gt;[^\r\n,]+)" DisplayName="Find Matching Patterns - Company" sap:VirtualizedContainerService.HintSize="536,92" sap2010:WorkflowViewState.IdRef="Matches_1" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)(?&lt;=\\b(?:regards|best|sincerely)[,\\s]*\\n)(?&lt;Company&gt;[^\\r\\n,]+)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
             <ui:Matches.FirstMatch>
               <OutArgument x:TypeArguments="x:String">
-                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_13">out_str_Company</CSharpReference>
+                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_13">out_Company</CSharpReference>
               </OutArgument>
             </ui:Matches.FirstMatch>
             <ui:Matches.Input>
@@ -249,10 +249,10 @@
               </InArgument>
             </ui:Matches.Pattern>
           </ui:Matches>
-          <ui:Matches BuilderPattern="(?&lt;=\n)(?!Regards|Best|Sincerely)[^\n]+(?=\n\s*(?:VAT\s*ID:|VAT:)?\s*[A-Z]{2}\d{7,15})" DisplayName="Find Matching Patterns - Address" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_3" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=\\n)(?!Regards|Best|Sincerely)[^\\n]+(?=\\n\\s*(?:VAT\\s*ID:|VAT:)?\\s*[A-Z]{2}\\d{7,15})&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
+          <ui:Matches BuilderPattern="(?&lt;=\n)(?!Regards|Best|Sincerely)[^\n]+(?=\n\s*(?:VAT\s*ID:|VAT:)?\s*[A-Z]{2}\d{7,15})" DisplayName="Find Matching Patterns - Address" sap:VirtualizedContainerService.HintSize="536,92" sap2010:WorkflowViewState.IdRef="Matches_3" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=\\n)(?!Regards|Best|Sincerely)[^\\n]+(?=\\n\\s*(?:VAT\\s*ID:|VAT:)?\\s*[A-Z]{2}\\d{7,15})&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
             <ui:Matches.FirstMatch>
               <OutArgument x:TypeArguments="x:String">
-                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_19">out_str_Address</CSharpReference>
+                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_19">out_Address</CSharpReference>
               </OutArgument>
             </ui:Matches.FirstMatch>
             <ui:Matches.Input>
@@ -266,10 +266,10 @@
               </InArgument>
             </ui:Matches.Pattern>
           </ui:Matches>
-          <ui:Matches BuilderPattern="(?i)\b([A-Z]{2}\d{7,15})\b" DisplayName="Find Matching Patterns - VAT ID" sap:VirtualizedContainerService.HintSize="481,92" sap2010:WorkflowViewState.IdRef="Matches_2" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)\\b([A-Z]{2}\\d{7,15})\\b&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
+          <ui:Matches BuilderPattern="(?i)\b([A-Z]{2}\d{7,15})\b" DisplayName="Find Matching Patterns - VAT ID" sap:VirtualizedContainerService.HintSize="536,92" sap2010:WorkflowViewState.IdRef="Matches_2" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;ADV&quot;,&quot;OperationName&quot;:&quot;Advanced&quot;,&quot;OperationValue&quot;:&quot;(?i)\\b([A-Z]{2}\\d{7,15})\\b&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" RegexOption="IgnoreCase, Compiled">
             <ui:Matches.FirstMatch>
               <OutArgument x:TypeArguments="x:String">
-                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_20">out_str_VatId</CSharpReference>
+                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_20">out_VatId</CSharpReference>
               </OutArgument>
             </ui:Matches.FirstMatch>
             <ui:Matches.Input>
@@ -283,10 +283,10 @@
               </InArgument>
             </ui:Matches.Pattern>
           </ui:Matches>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="481,174" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
+          <ui:LogMessage DisplayName="Log Message - Extracted metadata" sap:VirtualizedContainerService.HintSize="536,174" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
             <ui:LogMessage.Message>
               <InArgument x:TypeArguments="x:Object">
-                <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_31">$"Extracted Metadata: Sender: {out_senderName}, Email: {out_str_Email}, Email Subject: {out_emailSubject}, Company: {out_str_Company}, Address: {out_str_Address}, VAT ID: {out_str_VatId}, Date: {in_dateProcessed}"</CSharpValue>
+                <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_31">$"Extracted Metadata: Sender: {out_SenderName}, Email: {out_Email}, Email Subject: {out_EmailSubject}, Company: {out_Company}, Address: {out_Address}, VAT ID: {out_VatId}, Date: {in_dateProcessed}"</CSharpValue>
               </InArgument>
             </ui:LogMessage.Message>
           </ui:LogMessage>
@@ -298,16 +298,16 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="515,1215" sap2010:WorkflowViewState.IdRef="Sequence_9">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="570,1878" sap2010:WorkflowViewState.IdRef="Sequence_9">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="481,1107" sap2010:WorkflowViewState.IdRef="Sequence_10">
+              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="536,1770" sap2010:WorkflowViewState.IdRef="Sequence_10">
                 <Sequence.Variables>
-                  <Variable x:TypeArguments="x:String" Name="str_FolderPath" />
-                  <Variable x:TypeArguments="x:String" Name="str_FilePath" />
+                  <Variable x:TypeArguments="x:String" Name="FolderPath" />
+                  <Variable x:TypeArguments="x:String" Name="FilePath" />
                 </Sequence.Variables>
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -316,41 +316,41 @@
                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error">
+                <ui:LogMessage DisplayName="Log Message - Failed to extract metadata" sap:VirtualizedContainerService.HintSize="502,183" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
-                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_26">"Error processing filtered emails"</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_48">"Error extracting email metadata"</CSharpValue>
                     </InArgument>
                   </ui:LogMessage.Message>
                 </ui:LogMessage>
-                <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_1">
+                <Assign DisplayName="Assign - Screenshots folder" sap:VirtualizedContainerService.HintSize="502,120" sap2010:WorkflowViewState.IdRef="Assign_1">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_25">str_FolderPath</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_25">FolderPath</CSharpReference>
                     </OutArgument>
                   </Assign.To>
                   <Assign.Value>
                     <InArgument x:TypeArguments="x:String">Exceptions_Screenshots</InArgument>
                   </Assign.Value>
                 </Assign>
-                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="TakeScreenshot - Invoke Workflow File (Framework\\TakeScreenshot.xaml)" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\\TakeScreenshot.xaml">
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Take Screenshot" sap:VirtualizedContainerService.HintSize="502,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\\TakeScreenshot.xaml">
                   <ui:InvokeWorkflowFile.Arguments>
                     <InArgument x:TypeArguments="x:String" x:Key="in_Folder">
-                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_33">str_FolderPath</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_33">FolderPath</CSharpValue>
                     </InArgument>
                     <InOutArgument x:TypeArguments="x:String" x:Key="io_FilePath">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_26">str_FilePath</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_26">FilePath</CSharpReference>
                     </InOutArgument>
                   </ui:InvokeWorkflowFile.Arguments>
                 </ui:InvokeWorkflowFile>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info">
+                <ui:LogMessage DisplayName="Log Message - Sending system exception email" sap:VirtualizedContainerService.HintSize="502,183" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_39">"Preparing to send system exception email..."</CSharpValue>
                     </InArgument>
                   </ui:LogMessage.Message>
                 </ui:LogMessage>
-                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail" EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="434,57" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_1" Timeout="90" UseConnectionService="False">
+                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail to send system exception email " EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="502,740" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_1" Timeout="90" UseConnectionService="False">
                   <umab:GmailApplicationCard.Body>
                     <ActivityAction x:TypeArguments="um:IMailQuickHandle">
                       <ActivityAction.Argument>
@@ -362,7 +362,7 @@
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <umab:SendMailX Bcc="{x:Null}" Cc="{x:Null}" HtmlBodyFromText="{x:Null}" ReplyTo="{x:Null}" BodyType="Text" DisplayName="Send Email" sap:VirtualizedContainerService.HintSize="434,451" sap2010:WorkflowViewState.IdRef="SendMailX_1" Importance="Normal" IsDraft="False" MaxBodyDocumentSizeMB="2" Sensitivity="Normal" UseDocumentAsBody="False">
+                        <umab:SendMailX Bcc="{x:Null}" Cc="{x:Null}" HtmlBodyFromText="{x:Null}" ReplyTo="{x:Null}" BodyType="Text" DisplayName="Send System Exception Email" sap:VirtualizedContainerService.HintSize="434,451" sap2010:WorkflowViewState.IdRef="SendMailX_1" Importance="Normal" IsDraft="False" MaxBodyDocumentSizeMB="2" Sensitivity="Normal" UseDocumentAsBody="False">
                           <umab:SendMailX.Account>
                             <InArgument x:TypeArguments="um:IMailQuickHandle">
                               <CSharpValue x:TypeArguments="um:IMailQuickHandle" sap2010:WorkflowViewState.IdRef="CSharpValue`1_34">Gmail</CSharpValue>
@@ -376,7 +376,7 @@
                           <umab:SendMailX.Files>
                             <scg:List x:TypeArguments="InArgument(x:String)" Capacity="1">
                               <InArgument x:TypeArguments="x:String">
-                                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_37">str_FilePath</CSharpValue>
+                                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_37">FilePath</CSharpValue>
                               </InArgument>
                             </scg:List>
                           </umab:SendMailX.Files>
@@ -416,12 +416,12 @@
                   </umab:GmailApplicationCard.ClientSecret>
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                 </umab:GmailApplicationCard>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,174" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info">
+                <ui:LogMessage DisplayName="Log Message - Email sent" sap:VirtualizedContainerService.HintSize="502,174" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_40">"System exception email sent successfully to: " + in_Config["SummaryNotificationEmail"].ToString()</CSharpValue>
@@ -429,13 +429,13 @@
                   </ui:LogMessage.Message>
                 </ui:LogMessage>
               </Sequence>
-              <Rethrow sap:VirtualizedContainerService.HintSize="468,48" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+              <Rethrow DisplayName="Rethrow system exception" sap:VirtualizedContainerService.HintSize="536,48" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
             </Sequence>
           </ActivityAction>
         </Catch>
       </TryCatch.Catches>
       <TryCatch.Finally>
-        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="502,94" sap2010:WorkflowViewState.IdRef="Sequence_4">
+        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="570,94" sap2010:WorkflowViewState.IdRef="Sequence_4">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>

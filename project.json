@@ -1,10 +1,10 @@
 {
   "name": "T2G_EmailEnricher",
   "projectId": "4f783d00-62d0-4183-923b-0aecab34382f",
-  "description": "Coordinates email intake and processing for Talents2Germany. Retrieves unread Gmail emails, extracts structured sender details, appends to Excel, queues enriched data for Orchestrator handling, and organizes processed emails into designated folders.",
+  "description": "Dispatcher for T2G Email Automation: Extracts Gmail data, logs to Excel, and queues for Performer.",
   "main": "Main.xaml",
   "dependencies": {
-    "UiPath.Excel.Activities": "[3.1.0-preview]",
+    "UiPath.Excel.Activities": "[3.1.1]",
     "UiPath.GSuite.Activities": "[3.2.10]",
     "UiPath.Mail.Activities": "[2.2.10]",
     "UiPath.System.Activities": "[25.6.1]",
@@ -15,7 +15,7 @@
   "entitiesStores": [],
   "schemaVersion": "4.0",
   "studioVersion": "25.0.167.0",
-  "projectVersion": "1.0.0",
+  "projectVersion": "1.1.0",
   "runtimeOptions": {
     "autoDispose": false,
     "netFrameworkLazyLoading": false,

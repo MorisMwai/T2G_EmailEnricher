@@ -28,30 +28,6 @@
       "IsPrincipal": true,
       "ArgumentType": 0,
       "DataSourceItems": null
-    },
-    {
-      "Name": "io_FilteredEmails",
-      "DisplayName": "io_FilteredEmails",
-      "Category": null,
-      "Tooltip": null,
-      "Placeholder": null,
-      "Widget": null,
-      "IsRequired": false,
-      "IsPrincipal": true,
-      "ArgumentType": 0,
-      "DataSourceItems": null
-    },
-    {
-      "Name": "io_FilteredEmails_Attachments",
-      "DisplayName": "io_FilteredEmails_Attachments",
-      "Category": null,
-      "Tooltip": null,
-      "Placeholder": null,
-      "Widget": null,
-      "IsRequired": false,
-      "IsPrincipal": true,
-      "ArgumentType": 0,
-      "DataSourceItems": null
     }
   ]
 }

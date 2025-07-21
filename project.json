@@ -1,7 +1,7 @@
 {
   "name": "T2G_EmailEnricher",
   "projectId": "4f783d00-62d0-4183-923b-0aecab34382f",
-  "description": "Automation solution for Talents2Germany GmbH to extract, filter, and process specific interest emails using Outlook and log structured data from signatures into Excel. Built with robust error handling, logging, and Orchestrator integration using UiPath REFramework (C#).",
+  "description": "Coordinates email intake and processing for Talents2Germany. Retrieves unread Gmail emails, extracts structured sender details, appends to Excel, queues enriched data for Orchestrator handling, and organizes processed emails into designated folders.",
   "main": "Main.xaml",
   "dependencies": {
     "UiPath.Excel.Activities": "[3.1.0-preview]",
@@ -101,6 +101,8 @@
   ],
   "isTemplate": false,
   "templateProjectData": {},
-  "publishData": {},
+  "publishData": {
+    "iconUrl": ".package/package-icon.png"
+  },
   "targetFramework": "Windows"
 }

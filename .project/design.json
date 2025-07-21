@@ -1,5 +1,15 @@
 {
-  "Tags": [],
+  "Tags": [
+    {
+      "Key": "Dispatcher"
+    },
+    {
+      "Key": "Email Processing"
+    },
+    {
+      "Key": "Queue Builder"
+    }
+  ],
   "SeparateRuntimeDependencies": true,
   "IncludeSources": true,
   "ConnectorKeys": []

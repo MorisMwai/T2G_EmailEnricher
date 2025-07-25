@@ -109,7 +109,7 @@
       <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Handles business exceptions like no emails found, missing attachments, or invalid Excel format. Sends a context-specific email to notify stakeholders without stopping the automation." sap:VirtualizedContainerService.HintSize="1309,2878" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Handles business exceptions like no emails found, missing attachments, or invalid Excel format. Sends a context-specific email to notify stakeholders without stopping the automation." sap:VirtualizedContainerService.HintSize="1309,2805" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="subject" />
       <Variable x:TypeArguments="x:String" Name="body" />
@@ -273,7 +273,7 @@
         </Assign>
       </Sequence>
     </Switch>
-    <ui:LogMessage DisplayName="Log Message - Sending Email" sap:VirtualizedContainerService.HintSize="502,183" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info">
+    <ui:LogMessage DisplayName="Log Message - Sending Email" sap:VirtualizedContainerService.HintSize="502,89" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info">
       <ui:LogMessage.Message>
         <InArgument x:TypeArguments="x:Object">
           <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_105">"Preparing to send business exception email..."</CSharpValue>

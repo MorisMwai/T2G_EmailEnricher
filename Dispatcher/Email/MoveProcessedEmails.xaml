@@ -1,8 +1,8 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="EmailMovement" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.Collections;assembly=System.Private.CoreLib" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:um="clr-namespace:UiPath.Mail;assembly=UiPath.Mail.Activities" xmlns:umab="clr-namespace:UiPath.Mail.Activities.Business;assembly=UiPath.Mail.Activities" xmlns:umabh="clr-namespace:UiPath.Mail.Activities.Business.HtmlEditor;assembly=UiPath.Mail.Activities" xmlns:umae="clr-namespace:UiPath.Mail.Activities.Enums;assembly=UiPath.Mail.Activities" xmlns:usau="clr-namespace:UiPath.Shared.Activities.Utils;assembly=UiPath.Mail.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
-    <x:Property Name="io_FilteredEmails" Type="InArgument(scg:List(snm:MailMessage))" />
-    <x:Property Name="io_FilteredEmails_Attachments" Type="InArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="in_FilteredEmails" Type="InArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="in_FilteredEmailsAttachments" Type="InArgument(scg:List(snm:MailMessage))" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
@@ -122,38 +122,38 @@
       <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1309,3924" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap:VirtualizedContainerService.HintSize="1309,4587" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="ProcessedEmailsFolder" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="504,3901" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch DisplayName="Try Catch - Move processed emails" sap:VirtualizedContainerService.HintSize="572,4564" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <Sequence sap2010:Annotation.AnnotationText="This sequence implements the email movement functionality for the filtered emails." DisplayName="Try" sap:VirtualizedContainerService.HintSize="502,2427" sap2010:WorkflowViewState.IdRef="Sequence_16">
-          <Sequence.Variables>
-            <Variable x:TypeArguments="x:String" Name="ProcessedEmailsFolder" />
-          </Sequence.Variables>
+        <Sequence sap2010:Annotation.AnnotationText="This sequence implements the email movement functionality for the filtered emails." DisplayName="Move Processed Emails" sap:VirtualizedContainerService.HintSize="570,2427" sap2010:WorkflowViewState.IdRef="Sequence_16">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <Assign sap:VirtualizedContainerService.HintSize="468,120" sap2010:WorkflowViewState.IdRef="Assign_1">
+          <Assign DisplayName="Assign - Folder to move emails" sap:VirtualizedContainerService.HintSize="536,120" sap2010:WorkflowViewState.IdRef="Assign_1">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">
-                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_1">ProcessedEmailsFolder</CSharpReference>
+                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_4">ProcessedEmailsFolder</CSharpReference>
               </OutArgument>
             </Assign.To>
             <Assign.Value>
               <InArgument x:TypeArguments="x:String">Processed Mails</InArgument>
             </Assign.Value>
           </Assign>
-          <If sap:VirtualizedContainerService.HintSize="468,1102" sap2010:WorkflowViewState.IdRef="If_1">
+          <If DisplayName="If - Check if there any filtered emails" sap:VirtualizedContainerService.HintSize="536,1102" sap2010:WorkflowViewState.IdRef="If_1">
             <If.Condition>
               <InArgument x:TypeArguments="x:Boolean">
-                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_89">io_FilteredEmails.Count &gt; 0</CSharpValue>
+                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_89">in_FilteredEmails.Count &gt; 0</CSharpValue>
               </InArgument>
             </If.Condition>
             <If.Then>
@@ -163,7 +163,7 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each currentMailMessage" sap:VirtualizedContainerService.HintSize="418,665" sap2010:WorkflowViewState.IdRef="ForEach`1_2">
+                <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Mail in Filtered List" sap:VirtualizedContainerService.HintSize="418,665" sap2010:WorkflowViewState.IdRef="ForEach`1_2">
                   <ui:ForEach.Body>
                     <ActivityAction x:TypeArguments="snm:MailMessage">
                       <ActivityAction.Argument>
@@ -175,11 +175,24 @@
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:MoveIMAPMailMessageToFolder ClientName="{x:Null}" ClientVersion="{x:Null}" Email="{x:Null}" Password="{x:Null}" Port="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" UseOAuth="{x:Null}" ConnectionId="7ab04afe-8701-46b9-9ab7-77ec43e583c4" ConnectionMode="IntegrationService" DisplayName="Move IMAP Email" EnableSSL="True" FromFolder="Inbox" sap:VirtualizedContainerService.HintSize="382,305" sap2010:WorkflowViewState.IdRef="MoveIMAPMailMessageToFolder_1" IgnoreCRL="False" SecureConnection="Auto" UseISConnection="True">
+                        <ui:MoveIMAPMailMessageToFolder ClientName="{x:Null}" ClientVersion="{x:Null}" Email="{x:Null}" IgnoreCRL="{x:Null}" Password="{x:Null}" Port="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" UseOAuth="{x:Null}" ConnectionId="7ab04afe-8701-46b9-9ab7-77ec43e583c4" ConnectionMode="IntegrationService" DisplayName="Move IMAP Email - Filtered Email" EnableSSL="True" FromFolder="Inbox" sap:VirtualizedContainerService.HintSize="382,305" sap2010:WorkflowViewState.IdRef="MoveIMAPMailMessageToFolder_1" SecureConnection="Auto" UseISConnection="True">
                           <ui:MoveIMAPMailMessageToFolder.ConnectionDetailsBackupSlot>
                             <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="IntegrationService">
                               <usau:BackupSlot.BackupValues>
-                                <scg:Dictionary x:TypeArguments="umae:ConnectionDetails, scg:List(x:Object)" />
+                                <scg:List x:TypeArguments="x:Object" x:Key="IntegrationService" Capacity="1">
+                                  <x:String>7ab04afe-8701-46b9-9ab7-77ec43e583c4</x:String>
+                                </scg:List>
+                                <scg:List x:TypeArguments="x:Object" x:Key="LegacyConfiguration" Capacity="9">
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                  <x:Null />
+                                  <x:Null />
+                                </scg:List>
                               </usau:BackupSlot.BackupValues>
                             </usau:BackupSlot>
                           </ui:MoveIMAPMailMessageToFolder.ConnectionDetailsBackupSlot>
@@ -194,7 +207,7 @@
                             </InArgument>
                           </ui:MoveIMAPMailMessageToFolder.MailMessage>
                         </ui:MoveIMAPMailMessageToFolder>
-                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info">
+                        <ui:LogMessage DisplayName="Log Message - Moved filtered email" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info">
                           <ui:LogMessage.Message>
                             <InArgument x:TypeArguments="x:Object">
                               <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_83">"Moved email: " + currentMailMessage.Subject</CSharpValue>
@@ -206,7 +219,7 @@
                   </ui:ForEach.Body>
                   <ui:ForEach.Values>
                     <InArgument x:TypeArguments="sc:IEnumerable">
-                      <CSharpValue x:TypeArguments="sc:IEnumerable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_73">io_FilteredEmails</CSharpValue>
+                      <CSharpValue x:TypeArguments="sc:IEnumerable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_73">in_FilteredEmails</CSharpValue>
                     </InArgument>
                   </ui:ForEach.Values>
                 </ui:ForEach>
@@ -219,7 +232,7 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info">
+                <ui:LogMessage DisplayName="Log Message - No filtered emails " sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_90">"No filtered emails to move"</CSharpValue>
@@ -229,10 +242,10 @@
               </Sequence>
             </If.Else>
           </If>
-          <If sap:VirtualizedContainerService.HintSize="468,1093" sap2010:WorkflowViewState.IdRef="If_2">
+          <If DisplayName="If - Check if there any filtered emails with attachments" sap:VirtualizedContainerService.HintSize="536,1093" sap2010:WorkflowViewState.IdRef="If_2">
             <If.Condition>
               <InArgument x:TypeArguments="x:Boolean">
-                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_91">io_FilteredEmails_Attachments.Count &gt; 0</CSharpValue>
+                <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_91">in_FilteredEmailsAttachments.Count &gt; 0</CSharpValue>
               </InArgument>
             </If.Condition>
             <If.Then>
@@ -242,7 +255,7 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each currentMailMessage" sap:VirtualizedContainerService.HintSize="418,665" sap2010:WorkflowViewState.IdRef="ForEach`1_3">
+                <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Mail in Filtered Emails with Attachments" sap:VirtualizedContainerService.HintSize="418,665" sap2010:WorkflowViewState.IdRef="ForEach`1_3">
                   <ui:ForEach.Body>
                     <ActivityAction x:TypeArguments="snm:MailMessage">
                       <ActivityAction.Argument>
@@ -254,11 +267,24 @@
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:MoveIMAPMailMessageToFolder ClientName="{x:Null}" ClientVersion="{x:Null}" Email="{x:Null}" Password="{x:Null}" Port="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" UseOAuth="{x:Null}" ConnectionId="7ab04afe-8701-46b9-9ab7-77ec43e583c4" ConnectionMode="IntegrationService" DisplayName="Move IMAP Email" EnableSSL="True" FromFolder="Inbox" sap:VirtualizedContainerService.HintSize="382,305" sap2010:WorkflowViewState.IdRef="MoveIMAPMailMessageToFolder_2" IgnoreCRL="False" SecureConnection="Auto" UseISConnection="True">
+                        <ui:MoveIMAPMailMessageToFolder ClientName="{x:Null}" ClientVersion="{x:Null}" Email="{x:Null}" IgnoreCRL="{x:Null}" Password="{x:Null}" Port="{x:Null}" SecurePassword="{x:Null}" Server="{x:Null}" UseOAuth="{x:Null}" ConnectionId="7ab04afe-8701-46b9-9ab7-77ec43e583c4" ConnectionMode="IntegrationService" DisplayName="Move IMAP Email - Filtered Emails with Attachments" EnableSSL="True" FromFolder="Inbox" sap:VirtualizedContainerService.HintSize="382,305" sap2010:WorkflowViewState.IdRef="MoveIMAPMailMessageToFolder_2" SecureConnection="Auto" UseISConnection="True">
                           <ui:MoveIMAPMailMessageToFolder.ConnectionDetailsBackupSlot>
                             <usau:BackupSlot x:TypeArguments="umae:ConnectionDetails" StoredValue="IntegrationService">
                               <usau:BackupSlot.BackupValues>
-                                <scg:Dictionary x:TypeArguments="umae:ConnectionDetails, scg:List(x:Object)" />
+                                <scg:List x:TypeArguments="x:Object" x:Key="IntegrationService" Capacity="1">
+                                  <x:String>7ab04afe-8701-46b9-9ab7-77ec43e583c4</x:String>
+                                </scg:List>
+                                <scg:List x:TypeArguments="x:Object" x:Key="LegacyConfiguration" Capacity="9">
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <x:Null />
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                  <x:Null />
+                                  <x:Null />
+                                </scg:List>
                               </usau:BackupSlot.BackupValues>
                             </usau:BackupSlot>
                           </ui:MoveIMAPMailMessageToFolder.ConnectionDetailsBackupSlot>
@@ -273,7 +299,7 @@
                             </InArgument>
                           </ui:MoveIMAPMailMessageToFolder.MailMessage>
                         </ui:MoveIMAPMailMessageToFolder>
-                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
+                        <ui:LogMessage DisplayName="Log Message - Moved email" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info">
                           <ui:LogMessage.Message>
                             <InArgument x:TypeArguments="x:Object">
                               <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_84">"Moved email: " + currentMailMessage.Subject</CSharpValue>
@@ -285,7 +311,7 @@
                   </ui:ForEach.Body>
                   <ui:ForEach.Values>
                     <InArgument x:TypeArguments="sc:IEnumerable">
-                      <CSharpValue x:TypeArguments="sc:IEnumerable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_77">io_FilteredEmails_Attachments</CSharpValue>
+                      <CSharpValue x:TypeArguments="sc:IEnumerable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_77">in_FilteredEmailsAttachments</CSharpValue>
                     </InArgument>
                   </ui:ForEach.Values>
                 </ui:ForEach>
@@ -298,7 +324,7 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info">
+                <ui:LogMessage DisplayName="Log Message - No filtered emails with attachments" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_92">"No filtered emails with attachments to move"</CSharpValue>
@@ -316,16 +342,16 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="502,1215" sap2010:WorkflowViewState.IdRef="Sequence_20">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="570,1878" sap2010:WorkflowViewState.IdRef="Sequence_20">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="468,1107" sap2010:WorkflowViewState.IdRef="Sequence_28">
+              <Sequence sap2010:Annotation.AnnotationText="This sequence handles system exceptions that may occur during the automation process. It includes activities to capture a screenshot of the screen when an exception occurs and sends an email notification to stakeholders to inform them about the encountered issue." sap:VirtualizedContainerService.HintSize="536,1770" sap2010:WorkflowViewState.IdRef="Sequence_28">
                 <Sequence.Variables>
-                  <Variable x:TypeArguments="x:String" Name="str_FolderPath" />
-                  <Variable x:TypeArguments="x:String" Name="str_FilePath" />
+                  <Variable x:TypeArguments="x:String" Name="FolderPath" />
+                  <Variable x:TypeArguments="x:String" Name="FilePath" />
                 </Sequence.Variables>
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -334,41 +360,41 @@
                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Error">
+                <ui:LogMessage DisplayName="Log Message - Failed to move emails" sap:VirtualizedContainerService.HintSize="502,183" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Error">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_100">"Error moving emails"</CSharpValue>
                     </InArgument>
                   </ui:LogMessage.Message>
                 </ui:LogMessage>
-                <Assign sap:VirtualizedContainerService.HintSize="434,120" sap2010:WorkflowViewState.IdRef="Assign_2">
+                <Assign DisplayName="Assign - Screenshots folder" sap:VirtualizedContainerService.HintSize="502,120" sap2010:WorkflowViewState.IdRef="Assign_2">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_2">str_FolderPath</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_2">FolderPath</CSharpReference>
                     </OutArgument>
                   </Assign.To>
                   <Assign.Value>
                     <InArgument x:TypeArguments="x:String">Exceptions_Screenshots</InArgument>
                   </Assign.Value>
                 </Assign>
-                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="TakeScreenshot - Invoke Workflow File (Framework\\TakeScreenshot.xaml)" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\\TakeScreenshot.xaml">
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Take Screenshot" sap:VirtualizedContainerService.HintSize="502,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Framework\\TakeScreenshot.xaml">
                   <ui:InvokeWorkflowFile.Arguments>
                     <InArgument x:TypeArguments="x:String" x:Key="in_Folder">
-                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_94">str_FolderPath</CSharpValue>
+                      <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_94">FolderPath</CSharpValue>
                     </InArgument>
                     <InOutArgument x:TypeArguments="x:String" x:Key="io_FilePath">
-                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_3">str_FilePath</CSharpReference>
+                      <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_3">FilePath</CSharpReference>
                     </InOutArgument>
                   </ui:InvokeWorkflowFile.Arguments>
                 </ui:InvokeWorkflowFile>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,183" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info">
+                <ui:LogMessage DisplayName="Log Message - Sending system exception email" sap:VirtualizedContainerService.HintSize="502,183" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_102">"Preparing to send system exception email..."</CSharpValue>
                     </InArgument>
                   </ui:LogMessage.Message>
                 </ui:LogMessage>
-                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail" EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="434,57" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_1" Timeout="90" UseConnectionService="False">
+                <umab:GmailApplicationCard ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Account="mwaimoris@gmail.com" DisplayName="Use Gmail to Send Email" EmailAddress="mwaimoris@gmail.com" sap:VirtualizedContainerService.HintSize="502,740" sap2010:WorkflowViewState.IdRef="GmailApplicationCard_1" Timeout="90" UseConnectionService="False">
                   <umab:GmailApplicationCard.Body>
                     <ActivityAction x:TypeArguments="um:IMailQuickHandle">
                       <ActivityAction.Argument>
@@ -394,7 +420,7 @@
                           <umab:SendMailX.Files>
                             <scg:List x:TypeArguments="InArgument(x:String)" Capacity="1">
                               <InArgument x:TypeArguments="x:String">
-                                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_98">str_FilePath</CSharpValue>
+                                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_98">FilePath</CSharpValue>
                               </InArgument>
                             </scg:List>
                           </umab:SendMailX.Files>
@@ -434,12 +460,12 @@
                   </umab:GmailApplicationCard.ClientSecret>
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                 </umab:GmailApplicationCard>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,174" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info">
+                <ui:LogMessage DisplayName="Log Message - Email sent" sap:VirtualizedContainerService.HintSize="502,174" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info">
                   <ui:LogMessage.Message>
                     <InArgument x:TypeArguments="x:Object">
                       <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_101">"System exception email sent successfully to: " + in_Config["SummaryNotificationEmail"].ToString()</CSharpValue>
@@ -447,13 +473,13 @@
                   </ui:LogMessage.Message>
                 </ui:LogMessage>
               </Sequence>
-              <Rethrow sap:VirtualizedContainerService.HintSize="468,48" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+              <Rethrow sap:VirtualizedContainerService.HintSize="536,48" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
             </Sequence>
           </ActivityAction>
         </Catch>
       </TryCatch.Catches>
       <TryCatch.Finally>
-        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="502,94" sap2010:WorkflowViewState.IdRef="Sequence_19">
+        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="570,94" sap2010:WorkflowViewState.IdRef="Sequence_19">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>

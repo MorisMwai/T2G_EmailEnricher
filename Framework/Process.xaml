@@ -1,8 +1,8 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.Collections;assembly=System.Private.CoreLib" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_ExceptionReason" Type="InArgument(x:String)" />
-    <x:Property Name="io_FilteredEmails_Attachments" Type="InOutArgument(scg:List(snm:MailMessage))" />
-    <x:Property Name="io_FilteredEmails" Type="InOutArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="in_FilteredEmailsAttachments" Type="InArgument(scg:List(snm:MailMessage))" />
+    <x:Property Name="in_FilteredEmails" Type="InArgument(scg:List(snm:MailMessage))" />
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(scg:List(snm:MailMessage))" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
@@ -136,21 +136,18 @@
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="1309,2449" sap2010:WorkflowViewState.IdRef="Sequence_2">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="dateProcessed" />
-      <Variable x:TypeArguments="x:String" Name="signatureText" />
-      <Variable x:TypeArguments="x:String" Name="senderName" />
-      <Variable x:TypeArguments="x:String" Name="str_Email" />
-      <Variable x:TypeArguments="x:String" Name="emailSubject" />
-      <Variable x:TypeArguments="x:String" Name="str_Company" />
-      <Variable x:TypeArguments="x:String" Name="str_Address" />
-      <Variable x:TypeArguments="x:String" Name="str_VatId" />
-      <Variable x:TypeArguments="x:String" Name="excelPath" />
+      <Variable x:TypeArguments="x:String" Name="Email" />
+      <Variable x:TypeArguments="x:String" Name="Company" />
+      <Variable x:TypeArguments="x:String" Name="Address" />
+      <Variable x:TypeArguments="x:String" Name="VatId" />
       <Variable x:TypeArguments="sd:DataTable" Name="dt_Report" />
       <Variable x:TypeArguments="sd:DataTable" Name="dt_NewRecords" />
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredEmails" />
-      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredEmails_Attachments" />
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="FilteredEmailsAttachments" />
       <Variable x:TypeArguments="x:String" Name="FilteredEmailsCount" />
-      <Variable x:TypeArguments="x:String" Name="FilteredEmailsWithAttachmentsCount" />
+      <Variable x:TypeArguments="x:String" Name="FilteredEmailsAttachmentsCount" />
+      <Variable x:TypeArguments="x:String" Name="DateProcessed" />
+      <Variable x:TypeArguments="x:String" Name="EmailSubject" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -161,7 +158,7 @@
     <Assign DisplayName="Assign - Processing Date" sap:VirtualizedContainerService.HintSize="454,120" sap2010:WorkflowViewState.IdRef="Assign_3">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">
-          <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_31">dateProcessed</CSharpReference>
+          <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_85">DateProcessed</CSharpReference>
         </OutArgument>
       </Assign.To>
       <Assign.Value>
@@ -178,26 +175,26 @@
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="x:String">
-          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_92">io_FilteredEmails.Count.ToString()</CSharpValue>
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_92">in_FilteredEmails.Count.ToString()</CSharpValue>
         </InArgument>
       </Assign.Value>
     </Assign>
     <Assign DisplayName="Assign - Count of Filtered Emails with Attachments" sap:VirtualizedContainerService.HintSize="454,120" sap2010:WorkflowViewState.IdRef="Assign_5">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">
-          <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_69">FilteredEmailsWithAttachmentsCount</CSharpReference>
+          <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_69">FilteredEmailsAttachmentsCount</CSharpReference>
         </OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="x:String">
-          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_93">io_FilteredEmails_Attachments.Count.ToString()</CSharpValue>
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_93">in_FilteredEmailsAttachments.Count.ToString()</CSharpValue>
         </InArgument>
       </Assign.Value>
     </Assign>
     <If DisplayName="Check if there are filtered emails to extract metadata" sap:VirtualizedContainerService.HintSize="454,1611" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Condition>
         <InArgument x:TypeArguments="x:Boolean">
-          <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_96">io_FilteredEmails.Count &gt; 0</CSharpValue>
+          <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_96">in_FilteredEmails.Count &gt; 0</CSharpValue>
         </InArgument>
       </If.Condition>
       <sap:WorkflowViewStateService.ViewState>
@@ -208,12 +205,15 @@
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
         <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="452,1234" sap2010:WorkflowViewState.IdRef="Sequence_21">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="x:String" Name="SenderName" />
+          </Sequence.Variables>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:BuildDataTable DisplayName="Build Data Table" sap:VirtualizedContainerService.HintSize="418,92" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Date_x0020_Processed&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Sender_x0020_Name&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Company&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Address&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;VAT_x0020_ID&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Email&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Email_x0020_Subject&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;">
+          <ui:BuildDataTable DisplayName="Build New Records Data Table " sap:VirtualizedContainerService.HintSize="418,92" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Date_x0020_Processed&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Sender_x0020_Name&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Company&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Address&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;VAT_x0020_ID&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Email&quot; msdata:Caption=&quot;&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;                &lt;xs:element name=&quot;Email_x0020_Subject&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;">
             <ui:BuildDataTable.DataTable>
               <OutArgument x:TypeArguments="sd:DataTable">
                 <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_74">dt_NewRecords</CSharpReference>
@@ -228,7 +228,7 @@
                 </ActivityAction.Argument>
                 <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,770" sap2010:WorkflowViewState.IdRef="Sequence_15">
                   <Sequence.Variables>
-                    <Variable x:TypeArguments="x:String" Name="str_NewRecords" />
+                    <Variable x:TypeArguments="x:String" Name="NewRecords" />
                   </Sequence.Variables>
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -244,38 +244,38 @@
                         <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_107">in_Config</CSharpValue>
                       </InArgument>
                       <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
-                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_61">io_FilteredEmails</CSharpReference>
+                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_61">in_FilteredEmails</CSharpReference>
                       </InOutArgument>
-                      <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
-                        <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_70">in_TransactionItem</CSharpReference>
-                      </InOutArgument>
-                      <InArgument x:TypeArguments="x:String" x:Key="in_dateProcessed">
-                        <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_51">dateProcessed</CSharpValue>
+                      <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                        <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_129">in_TransactionItem</CSharpValue>
                       </InArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_senderName">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_39">senderName</CSharpReference>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_dateProcessed">
+                        <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_112">DateProcessed</CSharpValue>
+                      </InArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_SenderName">
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_83">SenderName</CSharpReference>
                       </OutArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_str_Email">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_40">str_Email</CSharpReference>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_Email">
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_78">Email</CSharpReference>
                       </OutArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_str_Company">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_41">str_Company</CSharpReference>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_Company">
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_79">Company</CSharpReference>
                       </OutArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_str_Address">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_42">str_Address</CSharpReference>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_Address">
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_80">Address</CSharpReference>
                       </OutArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_str_VatId">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_43">str_VatId</CSharpReference>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_VatId">
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_81">VatId</CSharpReference>
                       </OutArgument>
-                      <OutArgument x:TypeArguments="x:String" x:Key="out_emailSubject">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_44">emailSubject</CSharpReference>
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_EmailSubject">
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_84">EmailSubject</CSharpReference>
                       </OutArgument>
                     </ui:InvokeWorkflowFile.Arguments>
                   </ui:InvokeWorkflowFile>
-                  <ui:AddDataRow DataRow="{x:Null}" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="382,233" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                  <ui:AddDataRow DataRow="{x:Null}" DisplayName="Add Data Row - The New Record" sap:VirtualizedContainerService.HintSize="382,233" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
                     <ui:AddDataRow.ArrayRow>
                       <InArgument x:TypeArguments="s:Object[]">
-                        <CSharpValue x:TypeArguments="s:Object[]" sap2010:WorkflowViewState.IdRef="CSharpValue`1_109">new object[] { dateProcessed, senderName, str_Company, str_Address, str_VatId, str_Email, emailSubject }</CSharpValue>
+                        <CSharpValue x:TypeArguments="s:Object[]" sap2010:WorkflowViewState.IdRef="CSharpValue`1_113">new object[] { DateProcessed, SenderName, Company, Address, VatId, Email, EmailSubject }</CSharpValue>
                       </InArgument>
                     </ui:AddDataRow.ArrayRow>
                     <ui:AddDataRow.DataTable>
@@ -284,7 +284,7 @@
                       </InOutArgument>
                     </ui:AddDataRow.DataTable>
                   </ui:AddDataRow>
-                  <ui:OutputDataTable DisplayName="Output Data Table as Text" sap:VirtualizedContainerService.HintSize="382,117" sap2010:WorkflowViewState.IdRef="OutputDataTable_1">
+                  <ui:OutputDataTable DisplayName="Output New Records Data Table as Text" sap:VirtualizedContainerService.HintSize="382,117" sap2010:WorkflowViewState.IdRef="OutputDataTable_1">
                     <ui:OutputDataTable.DataTable>
                       <InArgument x:TypeArguments="sd:DataTable">
                         <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_110">dt_NewRecords</CSharpValue>
@@ -292,14 +292,14 @@
                     </ui:OutputDataTable.DataTable>
                     <ui:OutputDataTable.Text>
                       <OutArgument x:TypeArguments="x:String">
-                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_76">str_NewRecords</CSharpReference>
+                        <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_76">NewRecords</CSharpReference>
                       </OutArgument>
                     </ui:OutputDataTable.Text>
                   </ui:OutputDataTable>
-                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info">
+                  <ui:LogMessage DisplayName="Log Message - NewRecords Data Table" sap:VirtualizedContainerService.HintSize="382,174" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info">
                     <ui:LogMessage.Message>
                       <InArgument x:TypeArguments="x:Object">
-                        <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_111">$"New Records: {str_NewRecords}"</CSharpValue>
+                        <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_111">$"New Records: {NewRecords}"</CSharpValue>
                       </InArgument>
                     </ui:LogMessage.Message>
                   </ui:LogMessage>
@@ -308,38 +308,38 @@
             </ui:ForEach.Body>
             <ui:ForEach.Values>
               <InArgument x:TypeArguments="sc:IEnumerable">
-                <CSharpValue x:TypeArguments="sc:IEnumerable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_41">io_FilteredEmails</CSharpValue>
+                <CSharpValue x:TypeArguments="sc:IEnumerable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_41">in_FilteredEmails</CSharpValue>
               </InArgument>
             </ui:ForEach.Values>
           </ui:ForEach>
           <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Append Metadata To Excel" sap:VirtualizedContainerService.HintSize="418,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Dispatcher\\Excel\\AppendMetadataToExcel.xaml">
             <ui:InvokeWorkflowFile.Arguments>
-              <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
-                <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_71">in_TransactionItem</CSharpReference>
-              </InOutArgument>
+              <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+                <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_119">in_TransactionItem</CSharpValue>
+              </InArgument>
               <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                 <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_43">in_Config</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_dateProcessed">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_52">dateProcessed</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_DateProcessed">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_120">DateProcessed</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_senderName">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_53">senderName</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_SenderName">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_121">SenderName</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_str_Email">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_54">str_Email</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Email">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_122">Email</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_emailSubject">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_55">emailSubject</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_123">EmailSubject</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_str_Company">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_56">str_Company</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Company">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_124">Company</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_str_Address">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_57">str_Address</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Address">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_125">Address</CSharpValue>
               </InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_str_VatId">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_58">str_VatId</CSharpValue>
+              <InArgument x:TypeArguments="x:String" x:Key="in_VatId">
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_130">VatId</CSharpValue>
               </InArgument>
               <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_Report">
                 <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_52">dt_Report</CSharpReference>
@@ -361,7 +361,7 @@
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn">
+          <ui:LogMessage DisplayName="Log Message - No filtered emails" sap:VirtualizedContainerService.HintSize="418,174" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn">
             <ui:LogMessage.Message>
               <InArgument x:TypeArguments="x:Object">
                 <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_97">"No filtered emails to process"</CSharpValue>
@@ -373,27 +373,27 @@
     </If>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Add Metadata and Summary Data To Queue" sap:VirtualizedContainerService.HintSize="454,186" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Dispatcher\\Queue\\AddToQueue.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_FilteredEmailsWithAttachmentsCount">
-          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_89">FilteredEmailsWithAttachmentsCount</CSharpValue>
+        <InArgument x:TypeArguments="x:String" x:Key="in_FilteredEmailsAttachmentsCount">
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_126">FilteredEmailsAttachmentsCount</CSharpValue>
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_FilteredEmailsCount">
           <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_90">FilteredEmailsCount</CSharpValue>
         </InArgument>
-        <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails_Attachments">
-          <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_63">FilteredEmails_Attachments</CSharpReference>
+        <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmailsAttachments">
+          <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_87">in_FilteredEmailsAttachments</CSharpReference>
         </InOutArgument>
         <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
           <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_60">FilteredEmails</CSharpReference>
         </InOutArgument>
-        <InOutArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
-          <CSharpReference x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpReference`1_72">in_TransactionItem</CSharpReference>
-        </InOutArgument>
+        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_TransactionItem">
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_127">in_TransactionItem</CSharpValue>
+        </InArgument>
         <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
           <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_71">in_Config</CSharpValue>
         </InArgument>
-        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_NewRecords">
-          <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_55">dt_NewRecords</CSharpReference>
-        </InOutArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_NewRecords">
+          <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_128">dt_NewRecords</CSharpValue>
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Move Processed Emails" sap:VirtualizedContainerService.HintSize="454,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Dispatcher\\Email\\MoveProcessedEmails.xaml">
@@ -401,11 +401,11 @@
         <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
           <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_106">in_Config</CSharpValue>
         </InArgument>
-        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails">
-          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_86">io_FilteredEmails</CSharpValue>
+        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_FilteredEmails">
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_131">in_FilteredEmails</CSharpValue>
         </InArgument>
-        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="io_FilteredEmails_Attachments">
-          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_95">io_FilteredEmails_Attachments</CSharpValue>
+        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_FilteredEmailsAttachments">
+          <CSharpValue x:TypeArguments="scg:List(snm:MailMessage)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_132">in_FilteredEmailsAttachments</CSharpValue>
         </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
